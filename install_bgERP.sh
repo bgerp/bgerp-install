@@ -12,7 +12,7 @@ echo $pass | sudo -S apt-get update
 #echo $pass | sudo -S apt-get -y upgrade
 echo $pass | sudo -S apt-get install -y mysql-server
 echo $pass | sudo -S apt-get install -y apache2 php5-mysql libapache2-mod-php5
-
+# php7.0-mbstring
 
 # настройки на апаче
 echo $pass | sudo -S a2enmod headers
