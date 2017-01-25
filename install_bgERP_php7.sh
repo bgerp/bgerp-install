@@ -6,7 +6,7 @@ rm cron.res
 
 apt-get update
 apt-get -y upgrade
-apt-get install -y mysql-server apache2 php-mysql libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml
+apt-get install -y mysql-server apache2 php-mysql libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php7.0-zip
 phpenmod imap
 
 # настройки на апаче
