@@ -6,7 +6,7 @@ rm cron.res
 
 apt-get update
 apt-get -y upgrade
-apt-get install -y mysql-server apache2 php-mysql libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php7.0-zip pspell aspell-bg tesseract-ocr tesseract-ocr-bul
+apt-get install -y mysql-server apache2 php-mysql libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php7.0-zip pspell aspell-bg tesseract-ocr tesseract-ocr-bul 
 phpenmod imap
 
 # настройки на апаче
@@ -54,6 +54,7 @@ apt-get install -y zbar-tools
 apt-get install -y swftools
 apt-get install -y xpdf-utils
 apt-get install -y p7zip-full
+apt-get install -y p7zip-rar
 apt-get install -y default-jre
 apt-get install -y unoconv
 
