@@ -63,3 +63,8 @@ add-apt-repository ppa:inkscape.dev/stable
 apt-get update
 apt-get install -y inkscape
 apt-get install -y tnef
+
+apt install jpegoptim
+apt install libjpeg-turbo-progs
+apt install optipng
+apt install pngquant
