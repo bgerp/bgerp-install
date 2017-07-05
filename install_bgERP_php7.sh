@@ -57,6 +57,7 @@ apt-get install -y p7zip-full
 apt-get install -y p7zip-rar
 apt-get install -y default-jre
 apt-get install -y unoconv
+apt-get install -y timelimit
 
 apt-get install software-properties-common
 add-apt-repository ppa:inkscape.dev/stable
