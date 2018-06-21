@@ -36,7 +36,7 @@ sed -i "s/DEFINE('EF_SALT', '');/#DEFINE('EF_SALT', '');/g" conf/bgerp.cfg.php
 
 # задаваме пътя до EF_ROOT и името на приложението
 sed -i "s/# DEFINE('EF_ROOT_PATH', '\[#PATH_TO_FOLDER#\]');/DEFINE( 'EF_ROOT_PATH', '\/var\/www');/g" webroot/index.cfg.php
-sed -i "s/# DEFINE('EF_APP_NAME', '\[#APPLICATION_NAME#\]');/DEFINE('EF_APP_NAME', 'bgerp');/g" webroot/index.cfg.php
+sed -i "s/# DEFINE('EF_APP_NAME', 'bgerp');/DEFINE('EF_APP_NAME', 'bgerp');/g" webroot/index.cfg.php
 
 chown www-data:www-data /var/www -R
 
