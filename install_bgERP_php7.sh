@@ -1,8 +1,4 @@
 #!/bin/bash 
-crontab -l > cron.res
-echo "* * * * * wget -q --spider --no-check-certificate http://localhost/core_Cron/cron" >> cron.res
-crontab cron.res
-rm cron.res
 
 apt-get update
 apt-get -y upgrade
@@ -69,3 +65,8 @@ apt install jpegoptim
 apt install libjpeg-turbo-progs
 apt install optipng
 apt install pngquant
+
+crontab -l > cron.res
+echo "* * * * * wget -q --spider --no-check-certificate http://localhost/core_Cron/cron" >> cron.res
+crontab cron.res
+rm cron.res
