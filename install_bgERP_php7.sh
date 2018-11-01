@@ -4,7 +4,7 @@ add-apt-repository ppa:ondrej/php
 apt-get update
 apt-get -y upgrade
 apt-get install -y mysql-server apache2 php7.0-mysql libapache2-mod-php7.0 php7.0-mbstring php7.0-mysqlnd php7.0-imap php7.0-curl php7.0-gd php7.0-soap php7.0-xml php7.0-zip php7.0-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul 
-phpenmod imap webp
+phpenmod imap webp openssl
 
 # настройки на апаче
 a2enmod headers
@@ -21,6 +21,10 @@ mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
 # сменяме паролата на MySQL-a
 mysqladmin -uroot password USER_PASSWORD_FOR_DB
+
+# Генерираме 6 символна парола за потребителя
+PASS=`openssl rand -base64 32`
+PASS=${PASS:3:6}
 
 # подменяме името на приложението и потребителя
 sed -i "s/DEFINE('EF_DB_NAME', EF_APP_NAME);/DEFINE('EF_DB_NAME', 'bgerp');/g" conf/bgerp.cfg.php
