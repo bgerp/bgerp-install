@@ -26,9 +26,19 @@ mysqladmin -uroot password USER_PASSWORD_FOR_DB
 PASS=`openssl rand -base64 32`
 PASS=${PASS:3:6}
 
+cat > /tmp/mysqldb.sql << EOF
+CREATE DATABASE bgerp;
+GRANT ALL ON bgerp.* TO bgerp@localhost IDENTIFIED BY '${PASS}';
+EOF
+
+`mysql -uroot -pUSER_PASSWORD < /tmp/mysqldb.sql`
+`rm /tmp/mysqldb.sql`
+
+
 # подменяме името на приложението и потребителя
 sed -i "s/DEFINE('EF_DB_NAME', EF_APP_NAME);/DEFINE('EF_DB_NAME', 'bgerp');/g" conf/bgerp.cfg.php
-sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', 'root');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', 'bgerp');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${PASS}');/g" conf/bgerp.cfg.php
 
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
 # коментираме солите - за да се създадат наново
