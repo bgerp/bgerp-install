@@ -32,7 +32,7 @@ CREATE DATABASE bgerp;
 GRANT ALL ON bgerp.* TO bgerp@localhost IDENTIFIED BY '${PASS}';
 EOF
 
-`mysql -uroot -pUSER_PASSWORD < /tmp/mysqldb.sql`
+`mysql -uroot -pUSER_PASSWORD_FOR_DB < /tmp/mysqldb.sql`
 `rm /tmp/mysqldb.sql`
 
 
