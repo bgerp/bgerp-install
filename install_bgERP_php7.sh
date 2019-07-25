@@ -1,5 +1,14 @@
 #!/bin/bash 
 
+ROOT_UID=0
+NOTROOT=87
+# Check if user is root
+if [ $UID -ne $ROOT_UID ]
+    then echo “You must be root to run this script.” 
+    exit $NOTROOT
+fi
+
+
 add-apt-repository ppa:ondrej/php
 apt-get update
 apt-get -y upgrade
