@@ -8,6 +8,72 @@ if [ $UID -ne $ROOT_UID ]
     exit $NOTROOT
 fi
 
+display_help() {
+    echo "Usage: $0 [option= ...] " >&2
+    echo
+    echo "   -h, --help                 Show this help"
+    echo "   -d, --directory            Set bgERP dirertory to install"
+    echo "   -u, --url                  Apache virtual host name"
+    echo "   -b, --branch               bgERP source git branch"
+    echo "   -n, --dbname               MySQL database name"
+    echo "   -p, --dbrootpass           password for MySQL root user"
+    echo "   -s, --dbusername           database user name"
+    echo "   -a, --dbuserpass           database user password"
+    echo "   -m, --mysqlhost            MySQL host address"
+    echo
+
+    exit 1
+}
+
+# set defaults
+DIRECTORY=/var/www
+URL=localhost
+BRANCH=master
+DBNAME=bgerp
+DBROOTPASS=32D234d#$
+DBUSERNAME=bgerp
+DBUSERPASS= # will be randomly generated
+MYSQLHOST=localhost
+
+for i in "$@"
+do
+case $i in
+    -d=*|--directory=*)
+    DIRECTORY="${i#*=}"
+    ;;
+    -u=*|--url=*)
+    URL="${i#*=}"
+    ;;
+    -b=*|--branch=*)
+    BRANCH="${i#*=}"
+    ;;
+    -n=*|--dbname=*)
+    DBNAME="${i#*=}"
+    ;;
+    -p=*|--dbrootpass=*)
+    DBROOTPASS="${i#*=}"
+    ;;
+    -s=*|--dbusername=*)
+    DBUSERNAME="${i#*=}"
+    ;;
+    -a=*|--dbuserpass=*)
+    DBUSERPASS="${i#*=}"
+    ;;
+    -m=*|--mysqlhost=*)
+    MYSQLHOST="${i#*=}"
+    ;;
+    -h=*|--help=*)
+    display_help
+    ;;
+    *)
+    # unknown option
+    display_help
+    ;;
+esac
+done
+
+
+
 
 add-apt-repository ppa:ondrej/php
 apt-get update
