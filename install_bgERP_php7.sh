@@ -20,6 +20,7 @@ display_help() {
     echo "   -s, --dbusername           database user name"
     echo "   -a, --dbuserpass           database user password"
     echo "   -m, --mysqlhost            MySQL host address"
+    echo "   -c, --config               Config file for first user, email, company"
     echo
 
     exit 1
@@ -62,6 +63,9 @@ case $i in
     -m=*|--mysqlhost=*)
     MYSQLHOST="${i#*=}"
     ;;
+    -c=*|--config=*)
+    MYSQLHOST="${i#*=}"
+    ;;
     -h=*|--help=*)
     display_help
     ;;
@@ -72,13 +76,26 @@ case $i in
 esac
 done
 
+# instalation info
+echo Instalation info:
+echo DIRECTORY = ${DIRECTORY}
+echo URL = ${URL}
+echo BRANCH = ${BRANCH}
+echo DBNAME = ${DBNAME}
+echo DBROOTPASS = ${DBROOTPASS}
+echo DBUSERNAME = ${DBUSERNAME}
+echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
+echo MYSQLHOST = ${MYSQLHOST}
 
+apt-get install -y apache2
+
+exit 1
 
 
 add-apt-repository ppa:ondrej/php
 apt-get update
 apt-get -y upgrade
-apt-get install -y mysql-server apache2 php7.0-mysqlnd libapache2-mod-php7.0 php7.0-mbstring php7.0-mysqlnd php7.0-imap php7.0-curl php7.0-gd php7.0-soap php7.0-xml php7.0-zip php7.0-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
+apt-get install -y mysql-server php7.0-mysqlnd libapache2-mod-php7.0 php7.0-mbstring php7.0-mysqlnd php7.0-imap php7.0-curl php7.0-gd php7.0-soap php7.0-xml php7.0-zip php7.0-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
 
 phpenmod imap  
 
