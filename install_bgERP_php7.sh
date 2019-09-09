@@ -106,7 +106,7 @@ a2enmod headers
 a2enmod rewrite
 service apache2 restart
 
-bash a2addvhost.sh -d ${DIRECTORY} -u${VHOST}
+bash a2addvhost.sh -d=${DIRECTORY} -u=${VHOST}
 
 exit 1
 
