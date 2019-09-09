@@ -12,7 +12,7 @@ display_help() {
     echo "Usage: $0 [option= ...] " >&2
     echo
     echo "   -h, --help                 Show this help"
-    echo "   -d, --directory            Set bgERP dirertory to install"
+    echo "   -d, --directory            Set bgERP dirertory to install /EF_ROOT_PATH/"
     echo "   -u, --url                  Apache virtual host name"
     echo "   -b, --branch               bgERP source git branch"
     echo "   -n, --dbname               MySQL database name"
@@ -86,6 +86,12 @@ echo DBROOTPASS = ${DBROOTPASS}
 echo DBUSERNAME = ${DBUSERNAME}
 echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
 echo MYSQLHOST = ${MYSQLHOST}
+
+echo "Ctrl-C to cancel"
+
+sleep 5
+
+
 
 apt-get install -y apache2
 
