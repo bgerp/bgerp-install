@@ -79,7 +79,7 @@ done
 # instalation info
 echo Instalation info:
 echo DIRECTORY = ${DIRECTORY}
-echo VHOST = ${URL}
+echo VHOST = ${VHOST}
 echo BRANCH = ${BRANCH}
 echo DBNAME = ${DBNAME}
 echo DBROOTPASS = ${DBROOTPASS}
