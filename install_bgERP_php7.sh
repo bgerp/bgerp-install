@@ -43,7 +43,7 @@ case $i in
     DIRECTORY="${i#*=}"
     ;;
     -u=*|--url=*)
-    URL="${i#*=}"
+    VHOST="${i#*=}"
     ;;
     -b=*|--branch=*)
     BRANCH="${i#*=}"
@@ -79,7 +79,7 @@ done
 # instalation info
 echo Instalation info:
 echo DIRECTORY = ${DIRECTORY}
-echo URL = ${URL}
+echo VHOST = ${URL}
 echo BRANCH = ${BRANCH}
 echo DBNAME = ${DBNAME}
 echo DBROOTPASS = ${DBROOTPASS}
@@ -95,15 +95,20 @@ sleep 5
 dpkg -s apache2 &> /dev/null
 
 if [ $? -eq 0 ]; then
-    echo "Package apache2  is installed!"
+    echo "Package apache2 is installed."
 else
     echo "Package apache2 is NOT installed! Installing ..."
     apt-get install -y apache2
 fi
 
+# настройки на апаче
+a2enmod headers
+a2enmod rewrite
+service apache2 restart
+
+bash a2addvhost.sh -d ${DIRECTORY} -u${VHOST}
 
 exit 1
-
 
 add-apt-repository ppa:ondrej/php
 apt-get update
@@ -111,11 +116,6 @@ apt-get -y upgrade
 apt-get install -y mysql-server php7.0-mysqlnd libapache2-mod-php7.0 php7.0-mbstring php7.0-mysqlnd php7.0-imap php7.0-curl php7.0-gd php7.0-soap php7.0-xml php7.0-zip php7.0-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
 
 phpenmod imap  
-
-# настройки на апаче
-a2enmod headers
-a2enmod rewrite
-service apache2 restart
 
 # GIT
 apt-get install -y git

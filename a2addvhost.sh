@@ -22,12 +22,12 @@ display_help() {
 
 
 VHOST_AVAILABLE=/etc/apache2/sites-available/
+PUBLIC_DIR_NAME=webroot
 # WWW_ROOT=/home/dfsq/prog/sites/
-# PUBLIC_DIR_NAME=webroot
 
 # set defaults
 DIRECTORY=/var/www
-URL=localhost
+VHOST=localhost
 
 for i in "$@"
 do
@@ -36,7 +36,7 @@ case $i in
     DIRECTORY="${i#*=}"
     ;;
     -u=*|--url=*)
-    URL="${i#*=}"
+    VHOST="${i#*=}"
     ;;
     -h=*|--help=*)
     display_help
@@ -49,35 +49,35 @@ esac
 done
 
 # 1. Create new host directory
-mkdir -p -v $WWW_ROOT$URL"/"$PUBLIC_DIR_NAME
-chown -R www-data:www-data $WWW_ROOT$URL
+mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME
+chown -R www-data:www-data $DIRECTORY
 
 # 2. Make a copy of the new host configuration file
-cp $VHOST_AVAILABLE"default" $VHOST_AVAILABLE$URL
+cp $VHOST_AVAILABLE"default" $VHOST_AVAILABLE$VHOST
 
 # Extract default host path
-default_path=`sed -n 's/.*DocumentRoot\s\(.*\)\s*/\1/p' $VHOST_AVAILABLE$URL`
+default_path=`sed -n 's/.*DocumentRoot\s\(.*\)\s*/\1/p' $VHOST_AVAILABLE$VHOST`
 
 # Server name
 _s="ServerName\\s\\+.\\+"
-_r="ServerName $URL"
-sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$URL
+_r="ServerName $VHOST"
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST
 
 # Write new DocumentRoot
 _s=$default_path
-_r=$WWW_ROOT$URL"/"$PUBLIC_DIR_NAME
+_r=$DIRECTORY"/"$PUBLIC_DIR_NAME
 _s="${_s//\//\\/}"
 _r="${_r//\//\\/}"
-sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$URL
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST
 
 # Change error.log path
 _s="ErrorLog\\s\\+.\\+"
-_r="ErrorLog "$WWW_ROOT$URL"/error.log"
+_r="ErrorLog "$VHOST"-error.log"
 _r="${_r//\//\\/}"
-sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$URL
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST
 
 # 4. Enable new host
-a2ensite $URL
+a2ensite $VHOST
 
 # 5. Update host file
 echo -e "127.0.1.1\t$URL" >> /etc/hosts
@@ -85,7 +85,7 @@ echo -e "127.0.1.1\t$URL" >> /etc/hosts
 # 6. Restart apache
 /etc/init.d/apache2 reload
 
-echo "Host $URL created."
+echo "Host $VHOST created."
 
 exit;
 
