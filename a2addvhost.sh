@@ -50,7 +50,6 @@ done
 
 # 1. Create new host directory
 mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME
-chown -R www-data:www-data $DIRECTORY
 
 # 2. Make a copy of the new host configuration file
 cp $VHOST_AVAILABLE"000-default.conf" $VHOST_AVAILABLE$VHOST".conf"
@@ -74,9 +73,9 @@ _s="${_s//\//\\/}"
 _r="${_r//\//\\/}"
 sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
 
-# Set DocumentRoot permissions
+# Set apache DocumentRoot permissions
 _s=_r
-_r=_s"<Directory $DIRECTORY/$PUBLIC_DIR_NAME>
+_r=${_s}"<Directory ${DIRECTORY}/${PUBLIC_DIR_NAME}>
                 Options Indexes FollowSymLinks
                 AllowOverride None
                 Require all granted
@@ -95,6 +94,8 @@ _s="access.log"
 _r="$VHOST-access.log"
 sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
 
+# Change webroot path
+chown -R www-data:www-data $DIRECTORY
 
 # 4. Enable new host
 a2ensite $VHOST
