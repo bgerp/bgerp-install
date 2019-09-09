@@ -53,34 +53,54 @@ mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME
 chown -R www-data:www-data $DIRECTORY
 
 # 2. Make a copy of the new host configuration file
-cp $VHOST_AVAILABLE"default" $VHOST_AVAILABLE$VHOST
+cp $VHOST_AVAILABLE"000-default.conf" $VHOST_AVAILABLE$VHOST".conf"
 
 # Extract default host path
-default_path=`sed -n 's/.*DocumentRoot\s\(.*\)\s*/\1/p' $VHOST_AVAILABLE$VHOST`
+default_path=`sed -n 's/.*DocumentRoot\s\(.*\)\s*/\1/p' $VHOST_AVAILABLE$VHOST".conf"`
 
 # Server name
 _s="ServerName\\s\\+.\\+"
 _r="ServerName $VHOST"
-sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
+
+_s="#ServerName $VHOST"
+_r="ServerName $VHOST"
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
 
 # Write new DocumentRoot
 _s=$default_path
 _r=$DIRECTORY"/"$PUBLIC_DIR_NAME
 _s="${_s//\//\\/}"
 _r="${_r//\//\\/}"
-sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
+
+# Set DocumentRoot permissions
+_s=_r
+_r=_s"<Directory $DIRECTORY/$PUBLIC_DIR_NAME>
+                Options Indexes FollowSymLinks
+                AllowOverride None
+                Require all granted
+        </Directory>
+"
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
+
 
 # Change error.log path
-_s="ErrorLog\\s\\+.\\+"
-_r="ErrorLog "$VHOST"-error.log"
-_r="${_r//\//\\/}"
-sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST
+_s="error.log"
+_r="$VHOST-error.log"
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
+
+# Change access.log path
+_s="access.log"
+_r="$VHOST-access.log"
+sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
+
 
 # 4. Enable new host
 a2ensite $VHOST
 
 # 5. Update host file
-echo -e "127.0.1.1\t$URL" >> /etc/hosts
+echo -e "127.0.1.1\t$VHOST" >> /etc/hosts
 
 # 6. Restart apache
 /etc/init.d/apache2 reload
@@ -90,3 +110,4 @@ echo "Host $VHOST created."
 exit;
 
 END
+
