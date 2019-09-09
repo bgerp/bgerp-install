@@ -87,13 +87,20 @@ echo DBUSERNAME = ${DBUSERNAME}
 echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
 echo MYSQLHOST = ${MYSQLHOST}
 
-echo "Ctrl-C to cancel"
+echo "Ctrl-C to cancel ..."
 
 sleep 5
 
 
+dpkg -s apache2 &> /dev/null
 
-apt-get install -y apache2
+if [ $? -eq 0 ]; then
+    echo "Package apache2  is installed!"
+else
+    echo "Package apache2 is NOT installed! Installing ..."
+    apt-get install -y apache2
+fi
+
 
 exit 1
 
