@@ -74,14 +74,16 @@ _r="${_r//\//\\/}"
 sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
 
 # Set apache DocumentRoot permissions
-_s=_r
-_r=${_s}"<Directory ${DIRECTORY}/${PUBLIC_DIR_NAME}>
-                Options Indexes FollowSymLinks
-                AllowOverride None
-                Require all granted
-        </Directory>
-"
-sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
+_s=$DIRECTORY"/"$PUBLIC_DIR_NAME
+_a='<Directory '$DIRECTORY'/'$PUBLIC_DIR_NAME'/>Options Indexes FollowSymLinks AllowOverride None Require all granted </Directory>'
+_s="${_s//\//\\/}"
+_a="${_a//\//\\/}"
+#echo ${_s}
+#echo ${_a}
+#echo "/\\${_s}/a ${_a}" 
+
+sed -i "/${_s}/a ${_a}" $VHOST_AVAILABLE$VHOST".conf"
+
 
 
 # Change error.log path
