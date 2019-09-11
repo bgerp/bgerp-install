@@ -108,8 +108,6 @@ service apache2 restart
 
 bash a2addvhost.sh -d=${DIRECTORY} -u=${VHOST}
 
-exit 1
-
 add-apt-repository ppa:ondrej/php
 apt-get update
 apt-get -y upgrade
@@ -119,7 +117,7 @@ phpenmod imap
 
 # GIT
 apt-get install -y git
-cd /var/www/
+cd ${DIRECTORY}
 git clone -b master http://github.com/bgerp/bgerp.git
 cp bgerp/_docs/webroot . -R
 cp bgerp/_docs/conf . -R
@@ -188,6 +186,6 @@ apt install optipng
 apt install pngquant
 
 crontab -l > cron.res
-echo "* * * * * wget -q --spider --no-check-certificate http://localhost/core_Cron/cron" >> cron.res
+echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
 crontab cron.res
 rm cron.res
