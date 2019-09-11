@@ -124,15 +124,15 @@ cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
 # сменяме паролата на MySQL-a
-mysqladmin -uroot password USER_PASSWORD_FOR_DB
+mysqladmin -uroot password ${DBROOTPASS}
 
-# Генерираме 6 символна парола за потребителя
-PASS=`openssl rand -base64 32`
-PASS=${PASS:3:6}
+# Ако не е зададена - генерираме 6 символна парола за потребителя
+DBUSERPASS=`openssl rand -base64 32`
+DBUSERPASS=${DBUSERPASS:3:6}
 
 cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE bgerp;
-GRANT ALL ON bgerp.* TO bgerp@localhost IDENTIFIED BY '${PASS}';
+GRANT ALL ON bgerp.* TO bgerp@localhost IDENTIFIED BY '${DBUSERPASS}';
 EOF
 
 `mysql -uroot -pUSER_PASSWORD_FOR_DB < /tmp/mysqldb.sql`
@@ -140,9 +140,9 @@ EOF
 
 
 # подменяме името на приложението и потребителя
-sed -i "s/DEFINE('EF_DB_NAME', EF_APP_NAME);/DEFINE('EF_DB_NAME', 'bgerp');/g" conf/bgerp.cfg.php
-sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', 'bgerp');/g" conf/bgerp.cfg.php
-sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${PASS}');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('EF_DB_NAME', EF_APP_NAME);/DEFINE('EF_DB_NAME', '${DBNAME}');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', '${DBUSERNAME}');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${DBUSERPASS}');/g" conf/bgerp.cfg.php
 
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
 # коментираме солите - за да се създадат наново
@@ -150,15 +150,10 @@ sed -i "s/DEFINE('EF_USERS_PASS_SALT', '');/#DEFINE('EF_USERS_PASS_SALT', '');/g
 sed -i "s/DEFINE('EF_SALT', '');/#DEFINE('EF_SALT', '');/g" conf/bgerp.cfg.php
 
 # задаваме пътя до EF_ROOT и името на приложението
-sed -i "s/# DEFINE('EF_ROOT_PATH', '\[#PATH_TO_FOLDER#\]');/DEFINE( 'EF_ROOT_PATH', '\/var\/www');/g" webroot/index.cfg.php
+sed -i "s/# DEFINE('EF_ROOT_PATH', '\[#PATH_TO_FOLDER#\]');/DEFINE( 'EF_ROOT_PATH', '${DIRECTORY}');/g" webroot/index.cfg.php
 sed -i "s/# DEFINE('EF_APP_NAME', 'bgerp');/DEFINE('EF_APP_NAME', 'bgerp');/g" webroot/index.cfg.php
 
-chown www-data:www-data /var/www -R
-
-# Настрoйваме хоста по подразбиране 
-sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/webroot \n<Directory \/var\/www\/webroot\/>\n Options FollowSymLinks\n  AllowOverride All\n  Require all granted\n<\/Directory>/g" /etc/apache2/sites-enabled/000-default.conf
-
-service apache2 restart
+chown www-data:www-data ${DIRECTORY} -R
 
 # Допълнителен софтуер
 apt-get install -y wkhtmltopdf
