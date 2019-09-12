@@ -52,7 +52,8 @@ case $i in
     DBNAME="${i#*=}"
     ;;
     -p=*|--dbrootpass=*)
-    DBROOTPASS="${i#*=}"
+    DBROOTPASS="${i#*=}"param=""
+[[ !  -z  $param  ]] && echo "I am not zero"
     ;;
     -s=*|--dbusername=*)
     DBUSERNAME="${i#*=}"
@@ -127,8 +128,7 @@ mv conf/myapp.cfg.php conf/bgerp.cfg.php
 mysqladmin -uroot password ${DBROOTPASS}
 
 # Ако не е зададена - генерираме 6 символна парола за потребителя
-DBUSERPASS=`openssl rand -base64 32`
-DBUSERPASS=${DBUSERPASS:3:6}
+[[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${DBUSERPASS:3:6}
 
 cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE bgerp;
