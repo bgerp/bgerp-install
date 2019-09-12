@@ -118,7 +118,7 @@ phpenmod imap
 # GIT
 apt-get install -y git
 cd ${DIRECTORY}
-git clone -b master http://github.com/bgerp/bgerp.git
+git clone -b ${BRANCH} http://github.com/bgerp/bgerp.git
 cp bgerp/_docs/webroot . -R
 cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
