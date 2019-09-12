@@ -75,7 +75,7 @@ sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
 
 # Set apache DocumentRoot permissions
 _s=$DIRECTORY"/"$PUBLIC_DIR_NAME
-_a='<Directory '$DIRECTORY'/'$PUBLIC_DIR_NAME'/>\nOptions Indexes FollowSymLinks \nAllowOverride None \nRequire all granted \n</Directory>'
+_a='<Directory '$DIRECTORY'/'$PUBLIC_DIR_NAME'/>\nOptions Indexes FollowSymLinks \nAllowOverride All \nRequire all granted \n</Directory>'
 _s="${_s//\//\\/}"
 _a="${_a//\//\\/}"
 #echo ${_s}
