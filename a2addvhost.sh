@@ -101,6 +101,7 @@ chown -R www-data:www-data $DIRECTORY
 
 # 4. Enable new host
 a2ensite $VHOST
+a2dissite 000-default
 
 # 5. Update host file
 echo -e "127.0.1.1\t$VHOST" >> /etc/hosts
