@@ -109,7 +109,7 @@ service apache2 restart
 
 bash a2addvhost.sh -d=${DIRECTORY} -u=${VHOST}
 
-add-apt-repository ppa:ondrej/php
+add-apt-repository -y ppa:ondrej/php
 apt-get update
 apt-get -y upgrade
 apt-get install -y mysql-server php7.0-mysqlnd libapache2-mod-php7.0 php7.0-mbstring php7.0-mysqlnd php7.0-imap php7.0-curl php7.0-gd php7.0-soap php7.0-xml php7.0-zip php7.0-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
