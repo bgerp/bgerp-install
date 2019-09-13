@@ -1,5 +1,6 @@
 #!/bin/bash 
 
+
 ROOT_UID=0
 NOTROOT=87
 # Check if user is root
@@ -52,8 +53,7 @@ case $i in
     DBNAME="${i#*=}"
     ;;
     -p=*|--dbrootpass=*)
-    DBROOTPASS="${i#*=}"param=""
-[[ !  -z  $param  ]] && echo "I am not zero"
+    DBROOTPASS="${i#*=}"
     ;;
     -s=*|--dbusername=*)
     DBUSERNAME="${i#*=}"
@@ -89,9 +89,12 @@ echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
 echo MYSQLHOST = ${MYSQLHOST}
 
 echo "Ctrl-C to cancel ..."
-
-sleep 5
-
+secs=$((7))
+while [ $secs -gt 0 ]; do
+   echo -ne "$secs\033[0K\r"
+   sleep 1
+   : $((secs--))
+done
 
 dpkg -s apache2 &> /dev/null
 
@@ -131,11 +134,11 @@ mysqladmin -uroot password ${DBROOTPASS}
 [[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${DBUSERPASS:3:6}
 
 cat > /tmp/mysqldb.sql << EOF
-CREATE DATABASE bgerp;
-GRANT ALL ON bgerp.* TO bgerp@localhost IDENTIFIED BY '${DBUSERPASS}';
+CREATE DATABASE ${DBNAME};
+GRANT ALL ON ${DBNAME}.* TO ${DBUSER}@localhost IDENTIFIED BY '${DBUSERPASS}';
 EOF
 
-`mysql -uroot -pUSER_PASSWORD_FOR_DB < /tmp/mysqldb.sql`
+`mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql`
 `rm /tmp/mysqldb.sql`
 
 
