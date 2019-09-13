@@ -172,7 +172,7 @@ apt-get install -y unoconv
 apt-get install -y timelimit
 
 apt-get install software-properties-common
-add-apt-repository ppa:inkscape.dev/stable
+add-apt-repository -y ppa:inkscape.dev/stable
 apt-get update
 apt-get install -y inkscape
 apt-get install -y tnef
