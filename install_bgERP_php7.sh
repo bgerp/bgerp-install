@@ -140,8 +140,8 @@ CREATE DATABASE ${DBNAME};
 GRANT ALL ON ${DBNAME}.* TO ${DBUSER}@localhost IDENTIFIED BY '${DBUSERPASS}';
 EOF
 
-`mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql`
-`rm /tmp/mysqldb.sql`
+mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql
+rm /tmp/mysqldb.sql
 
 
 # подменяме името на приложението и потребителя
