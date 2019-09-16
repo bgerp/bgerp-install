@@ -137,7 +137,7 @@ mysqladmin -uroot password ${DBROOTPASS}
 
 cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE ${DBNAME};
-GRANT ALL ON ${DBNAME}.* TO ${DBUSER}@localhost IDENTIFIED BY '${DBUSERPASS}';
+GRANT ALL ON ${DBNAME}.* TO ${DBUSERNAME}@localhost IDENTIFIED BY '${DBUSERPASS}';
 EOF
 
 mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql
@@ -154,7 +154,7 @@ sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400)
 sed -i "s/DEFINE('EF_USERS_PASS_SALT', '');/#DEFINE('EF_USERS_PASS_SALT', '');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('EF_SALT', '');/#DEFINE('EF_SALT', '');/g" conf/bgerp.cfg.php
 
-sed -i "s/DEFINE('BGERP_GIT_BRANCH', 'master');/DEFINE('BGERP_GIT_BRANCH', '${BRANCH}');" conf/bgerp.cfg.php
+sed -i "s/DEFINE('BGERP_GIT_BRANCH', 'master');/DEFINE('BGERP_GIT_BRANCH', '${BRANCH}');/g" conf/bgerp.cfg.php
 
 # задаваме пътя до EF_ROOT и името на приложението
 sed -i "s/# DEFINE('EF_ROOT_PATH', '\[#PATH_TO_FOLDER#\]');/DEFINE( 'EF_ROOT_PATH', '"${DIRECTORY//\//\\/}"');/g" webroot/index.cfg.php
