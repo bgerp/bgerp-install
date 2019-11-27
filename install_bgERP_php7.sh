@@ -29,7 +29,7 @@ display_help() {
 
 # set defaults
 DIRECTORY=/var/www
-URL=localhost
+VHOST=localhost
 BRANCH=master
 DBNAME=bgerp
 DBROOTPASS=32D234d#$
