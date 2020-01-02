@@ -32,9 +32,9 @@ DIRECTORY=/var/www
 VHOST=localhost
 BRANCH=master
 DBNAME=bgerp
-DBROOTPASS=32D234d#$
+DBROOTPASS= # if not set by user will be randomly generated 
 DBUSERNAME=bgerp
-DBUSERPASS= # will be randomly generated
+DBUSERPASS= # if not set by user will be randomly generated
 MYSQLHOST=localhost
 
 for i in "$@"
@@ -83,7 +83,7 @@ echo DIRECTORY = ${DIRECTORY}
 echo VHOST = ${VHOST}
 echo BRANCH = ${BRANCH}
 echo DBNAME = ${DBNAME}
-echo DBROOTPASS = ${DBROOTPASS}
+echo DBROOTPASS = ${DBROOTPASS} # will be randomly generated
 echo DBUSERNAME = ${DBUSERNAME}
 echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
 echo MYSQLHOST = ${MYSQLHOST}
@@ -129,8 +129,11 @@ cp bgerp/_docs/webroot . -R
 cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
+# Ако не е зададена - генерираме 6 символна парола за root потребителя на MySQL-a
+[[  -z  ${DBROOTPASS}  ]] && DBROOTPASS=`openssl rand -base64 32` && DBROOTPASS=${DBUSERPASS:3:6}
 # сменяме паролата на MySQL-a
 mysqladmin -uroot password ${DBROOTPASS}
+
 
 # Ако не е зададена - генерираме 6 символна парола за потребителя
 [[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${DBUSERPASS:3:6}
@@ -189,3 +192,16 @@ crontab -l > cron.res
 echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
 crontab cron.res
 rm cron.res
+
+# Create instalation info file
+echo "Instalation info: " > ~/bgerp-install.info
+echo "DIRECTORY = "${DIRECTORY} >> ~/bgerp-install.info
+echo "VHOST = "${VHOST} >> ~/bgerp-install.info
+echo "BRANCH = "${BRANCH} >> ~/bgerp-install.info
+echo "DBNAME = "${DBNAME} >> ~/bgerp-install.info
+echo "DBROOTPASS = "${DBROOTPASS} >> ~/bgerp-install.info
+echo "DBUSERNAME = "${DBUSERNAME} >> ~/bgerp-install.info
+echo "DBUSERPASS = "${DBUSERPASS} >> ~/bgerp-install.info
+echo "MYSQLHOST = "${MYSQLHOST} >> ~/bgerp-install.info
+
+echo Instalation info: ~/bgerp-install.info
