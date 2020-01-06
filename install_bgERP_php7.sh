@@ -5,7 +5,7 @@ ROOT_UID=0
 NOTROOT=87
 # Check if user is root
 if [ $UID -ne $ROOT_UID ]
-    then echo “You must be root to run this script.” 
+    then echo “You will need to be root or use sudo to start this instalation” 
     exit $NOTROOT
 fi
 
