@@ -1,5 +1,15 @@
 #!/bin/bash 
 
+echo " _           ______ _____  _____    _____           _        _ _ "
+echo "| |         |  ____|  __ \|  __ \  |_   _|         | |      | | |"
+echo "| |__   __ _| |__  | |__) | |__) |   | |  _ __  ___| |_ __ _| | |"
+echo "| '_ \ / _` |  __| |  _  /|  ___/    | | | '_ \/ __| __/ _` | | |"
+echo "| |_) | (_| | |____| | \ \| |       _| |_| | | \__ \ || (_| | | |"
+echo "|_.__/ \__, |______|_|  \_\_|      |_____|_| |_|___/\__\__,_|_|_|"
+echo "        __/ |                                                    "
+echo "       |___/                                                     "
+echo "_________________________________________________________________"
+
 
 ROOT_UID=0
 NOTROOT=87
@@ -8,6 +18,9 @@ if [ $UID -ne $ROOT_UID ]
     then echo “You will need to be root or use sudo to start this instalation” 
     exit $NOTROOT
 fi
+
+echo "The installation of bgERP has started. Please be patient. "
+
 
 display_help() {
     echo "Usage: $0 [option= ...] " >&2
@@ -78,7 +91,7 @@ esac
 done
 
 # instalation info
-echo Instalation info:
+echo Installation information for bgERP:
 echo DIRECTORY = ${DIRECTORY}
 echo VHOST = ${VHOST}
 echo BRANCH = ${BRANCH}
@@ -89,7 +102,7 @@ echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
 echo MYSQLHOST = ${MYSQLHOST}
 
 echo "Ctrl-C to cancel ..."
-secs=$((7))
+secs=$((10))
 while [ $secs -gt 0 ]; do
    echo -ne "$secs\033[0K\r"
    sleep 1
@@ -194,7 +207,8 @@ crontab cron.res
 rm cron.res
 
 # Create instalation info file
-echo "Instalation info: " > ~/bgerp-install.info
+echo "Installation information for bgERP" > ~/bgerp-install.info
+echo "==================================" >> ~/bgerp-install.info
 echo "DIRECTORY = "${DIRECTORY} >> ~/bgerp-install.info
 echo "VHOST = "${VHOST} >> ~/bgerp-install.info
 echo "BRANCH = "${BRANCH} >> ~/bgerp-install.info
@@ -204,4 +218,10 @@ echo "DBUSERNAME = "${DBUSERNAME} >> ~/bgerp-install.info
 echo "DBUSERPASS = "${DBUSERPASS} >> ~/bgerp-install.info
 echo "MYSQLHOST = "${MYSQLHOST} >> ~/bgerp-install.info
 
-echo Instalation info: ~/bgerp-install.info
+echo *****************************************************************
+echo The bgERP system is installed on this server. To open it,   
+echo "load in the browser "${VHOST}". The installation"      
+echo parameters are saved in the file /root/bgerp-install.info   
+echo *****************************************************************
+
+cat ~/bgerp-install.info
