@@ -1,6 +1,14 @@
 # bgerp-install
-Bash scripts for quick bgERP insallation on new Linux (virtual) server
+Bash скрипт за инсталиране на [bgERP](https://bgerp.com) 
 
-`install_bgERP_php7.sh` - for instalation on Ubuntu server 16.04 & 18.04
-- must be start as root user
-- for now NOT working on Ubuntu 18.04.1 but working on Ubuntu 18.04
+---
+
+##### Изисквания
+- чиста инсталация на Ubuntu server 16.04 или 18.04
+- не работи на Ubuntu 18.04.1 но работи на Ubuntu 18.04
+
+
+##### Инсталация
+- пакета се сваля с командата: `git clone https://github.com/bgerp/bgerp-install.git`
+- влиза се в директорията `bgerp-install`
+- стартира се `install_bgERP_php7.sh` като потребител `root` или със `sudo`
