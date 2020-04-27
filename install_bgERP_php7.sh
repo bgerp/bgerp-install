@@ -153,7 +153,8 @@ mysqladmin -uroot password ${DBROOTPASS}
 
 cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE ${DBNAME};
-GRANT ALL ON ${DBNAME}.* TO ${DBUSERNAME}@localhost IDENTIFIED BY '${DBUSERPASS}';
+CREATE USER ${DBUSERNAME}@localhost IDENTIFIED BY '${DBUSERPASS}'
+GRANT ALL ON ${DBNAME}.* TO ${DBUSERNAME}@localhost;
 EOF
 
 mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql
