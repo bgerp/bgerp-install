@@ -143,13 +143,13 @@ cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
 # Ако не е зададена - генерираме 6 символна парола за root потребителя на MySQL-a
-[[  -z  ${DBROOTPASS}  ]] && DBROOTPASS=`openssl rand -base64 32` && DBROOTPASS=${DBUSERPASS:3:6}
+[[  -z  ${DBROOTPASS}  ]] && DBROOTPASS=`openssl rand -base64 32` && DBROOTPASS=${DBROOTPASS//\/\//} && DBROOTPASS=${DBUSERPASS:3:6}
 # сменяме паролата на MySQL-a
 mysqladmin -uroot password ${DBROOTPASS}
 
 
 # Ако не е зададена - генерираме 6 символна парола за потребителя
-[[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${DBUSERPASS:3:6}
+[[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${$DBUSERPASS//\/\//} && DBUSERPASS=${DBUSERPASS:3:6} 
 
 cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE ${DBNAME};
