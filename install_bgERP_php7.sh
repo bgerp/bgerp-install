@@ -19,9 +19,6 @@ if [ $UID -ne $ROOT_UID ]
     exit $NOTROOT
 fi
 
-echo "The installation of bgERP has started. Please be patient. "
-
-
 display_help() {
     echo "Usage: $0 [option= ...] " >&2
     echo
@@ -108,6 +105,8 @@ while [ $secs -gt 0 ]; do
    sleep 1
    : $((secs--))
 done
+
+echo "The installation of bgERP has started. Please be patient. "
 
 dpkg -s apache2 &> /dev/null
 
