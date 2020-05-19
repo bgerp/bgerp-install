@@ -149,7 +149,7 @@ mysqladmin -uroot password ${DBROOTPASS}
 
 
 # Ако не е зададена - генерираме 6 символна парола за потребителя
-[[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${$DBUSERPASS//\/\//} && DBUSERPASS=${DBUSERPASS:3:6} 
+[[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${DBUSERPASS//\/\//} && DBUSERPASS=${DBUSERPASS:3:6} 
 
 cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE ${DBNAME};
