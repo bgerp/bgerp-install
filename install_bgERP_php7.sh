@@ -220,7 +220,7 @@ echo "MYSQLHOST = "${MYSQLHOST} >> ~/bgerp-install.info
 
 echo *****************************************************************
 echo The bgERP system is installed on this server. To open it,   
-echo "load in the browser "${VHOST}". The installation"      
+echo "load in the browser http://"${VHOST}". The installation"      
 echo parameters are saved in the file /root/bgerp-install.info   
 echo *****************************************************************
 
