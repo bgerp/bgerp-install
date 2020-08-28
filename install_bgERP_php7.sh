@@ -32,6 +32,8 @@ display_help() {
     echo "   -a, --dbuserpass           database user password"
     echo "   -m, --mysqlhost            MySQL host address"
     echo "   -c, --config               Config file for first user, email, company"
+    echo "   -l, --cert                 Let's encrypt certificate - yes/no"
+    echo "   -e, --certemail            Let's encrypt email"
     echo
 
     exit 1
@@ -77,6 +79,12 @@ case $i in
     -c=*|--config=*)
     MYSQLHOST="${i#*=}"
     ;;
+    -l=*|--cert=*)
+    CERT="${i#*=}"
+    ;;
+    -e=*|--certemail=*)
+    CERTEMAIL="${i#*=}"
+    ;;
     -h=*|--help=*)
     display_help
     ;;
@@ -97,6 +105,8 @@ echo DBROOTPASS = ${DBROOTPASS} # will be randomly generated
 echo DBUSERNAME = ${DBUSERNAME}
 echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
 echo MYSQLHOST = ${MYSQLHOST}
+echo CERT = ${CERT}
+echo CERTEMAIL = ${CERTEMAIL}
 
 echo "Ctrl-C to cancel ..."
 secs=$((10))
@@ -205,6 +215,13 @@ crontab -l > cron.res
 echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
 crontab cron.res
 rm cron.res
+
+if [[ $CERT ]]; then
+    echo "Installing Let's Encrypt ..."
+    bash letsencrypt.sh -d=${VHOST} -m=${CERTEMAIL}
+else
+    echo "Not ssl certificate will be installed."
+fi
 
 # Create instalation info file
 echo "Installation information for bgERP" > ~/bgerp-install.info
