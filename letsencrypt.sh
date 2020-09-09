@@ -13,7 +13,7 @@ display_help() {
     echo "Usage: $0 [option= ...] " >&2
     echo
     echo "   -h, --help              Show this help"
-    echo "   -d, --domain            Set domain for certificate"
+    echo "   -d, --domain            Set apache vhost for certificate"
     echo "   -m, --email             Email for certificate"
     echo
 
@@ -38,4 +38,30 @@ case $i in
     ;;
 esac
 done
+
+extIP=`curl -s ifconfig.me`
+echo "External IP: ${extIP}"
+
+dnsIP=`dig +short "$d" @8.8.8.8`
+echo "DNS IP: ${dnsIP}"
+
+if [ "$extIP" = "$dnsIP" ]; then 
+        echo "Let's encrypt OK ..."
+        if ! grep -q "^deb .*certbot/certbot" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+            echo Adding Certbot repository ...
+            add-apt-repository -y ppa:certbot/certbot
+            apt-get update
+        fi
+        if [ $(dpkg-query -W -f='${Status}' python-certbot-apache 2>/dev/null | grep -c "ok installed") -eq 0 ];
+        then
+            echo Installing Apache Certbot ... 
+            apt-get install -y python-certbot-apache;
+        fi
+        # Installing certificate ...
+        
+    else
+        echo "Let's encrypt failed: external IP is NOT equal to DNS IP."
+fi
+
+
 
