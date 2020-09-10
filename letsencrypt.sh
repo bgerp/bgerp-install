@@ -46,7 +46,7 @@ dnsIP=`dig +short "$d" @8.8.8.8`
 echo "DNS IP: ${dnsIP}"
 
 if [ "$extIP" = "$dnsIP" ]; then 
-        echo "Let's encrypt OK ..."
+        echo "Let's encrypt Ips OK ..."
         if ! grep -q "^deb .*certbot/certbot" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
             echo Adding Certbot repository ...
             add-apt-repository -y ppa:certbot/certbot
@@ -58,7 +58,12 @@ if [ "$extIP" = "$dnsIP" ]; then
             apt-get install -y python-certbot-apache;
         fi
         # Installing certificate ...
-        
+        if [ -z "$m" ];
+        then
+            certbot --noninteractive --agree-tos -n "$m" --apache -d "$d"
+        else
+            certbot --noninteractive --agree-tos --register-unsafely-without-email --apache -d "$d"
+        fi
     else
         echo "Let's encrypt failed: external IP is NOT equal to DNS IP."
 fi
