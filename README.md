@@ -9,7 +9,8 @@ Bash скрипт за инсталиране на [bgERP](https://bgerp.com)
 
 
 ##### Инсталация
-- пакета се сваля с командата: `git clone https://github.com/bgerp/bgerp-install.git` или `wget https://github.com/bgerp/bgerp-install/archive/master.zip`
+- пакета се сваля с командата: `git clone https://github.com/bgerp/bgerp-install.git`<br>
+    или `wget https://github.com/bgerp/bgerp-install/archive/master.zip && unzip master.zip`
 - влиза се в директорията `bgerp-install`
 - стартира се `install_bgERP_php7.sh` като потребител `root` или със `sudo`
 Възможни са следните параметри за подаване:
