@@ -176,10 +176,11 @@ mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql
 rm /tmp/mysqldb.sql
 
 
-# подменяме името на приложението и потребителя
+# подменяме името на приложението, потребителя и домейна по подразбиране
 sed -i "s/DEFINE('EF_DB_NAME', EF_APP_NAME);/DEFINE('EF_DB_NAME', '${DBNAME}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', '${DBUSERNAME}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${DBUSERPASS}');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('BGERP_VHOST', 'localhost');/DEFINE('BGERP_VHOST', '${VHOST}');/g" conf/bgerp.cfg.php
 
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
 # коментираме солите - за да се създадат наново
