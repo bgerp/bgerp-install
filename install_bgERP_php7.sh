@@ -133,6 +133,12 @@ a2enmod rewrite
 
 bash a2addvhost.sh -d=${DIRECTORY} -u=${VHOST}
 
+if [ $? -eq -1 ]
+then
+  echo "Directory for virtual host exists!"
+  exit -1
+fi
+
 add-apt-repository -y ppa:ondrej/php
 apt-get install software-properties-common
 add-apt-repository -y ppa:inkscape.dev/stable

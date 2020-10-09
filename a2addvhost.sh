@@ -23,7 +23,6 @@ display_help() {
 
 VHOST_AVAILABLE=/etc/apache2/sites-available/
 PUBLIC_DIR_NAME=webroot
-# WWW_ROOT=/home/dfsq/prog/sites/
 
 # set defaults
 DIRECTORY=/var/www
@@ -49,7 +48,13 @@ esac
 done
 
 # 1. Create new host directory
-mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME
+if [ ! -d "$DIRECTORY"/"$PUBLIC_DIR_NAME" ] 
+then
+    mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME 
+else
+    exit -1;
+fi
+
 
 # 2. Make a copy of the new host configuration file
 cp $VHOST_AVAILABLE"000-default.conf" $VHOST_AVAILABLE$VHOST".conf"
@@ -111,7 +116,7 @@ echo -e "127.0.1.1\t$VHOST" >> /etc/hosts
 
 echo "Host $VHOST created."
 
-exit;
+exit 0;
 
 END
 
