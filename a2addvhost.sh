@@ -52,7 +52,9 @@ if [ ! -d "$DIRECTORY"/"$PUBLIC_DIR_NAME" ]
 then
     mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME 
 else
-    exit -1;
+    if [ "$(ls -A $DIR)" ]; then
+         exit -1;
+    fi    
 fi
 
 

@@ -135,7 +135,7 @@ bash a2addvhost.sh -d=${DIRECTORY} -u=${VHOST}
 
 if [ $? -eq -1 ]
 then
-  echo "Directory for virtual host exists!"
+  echo "Directory for virtual host is not empty!"
   exit -1
 fi
 
