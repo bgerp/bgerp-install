@@ -220,6 +220,12 @@ apt install libjpeg-turbo-progs
 apt install optipng
 apt install pngquant
 
+# добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
+chmod u+w /etc/sudoers
+echo "www-data ALL=(ALL) NOPASSWD: $(dirname "$0")\/\a2clonevhost.sh" >> /etc/sudoers 
+
+chmod u-w /etc/sudoers
+
 crontab -l > cron.res
 echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
 crontab cron.res
