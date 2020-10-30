@@ -139,12 +139,12 @@ then
   exit -1
 fi
 
-add-apt-repository -y ppa:ondrej/php
+#add-apt-repository -y ppa:ondrej/php
 apt-get install software-properties-common
 add-apt-repository -y ppa:inkscape.dev/stable
 apt-get update
 apt-get -y upgrade
-apt-get install -y mysql-server php7.0-mysqlnd libapache2-mod-php7.0 php7.0-mbstring php7.0-mysqlnd php7.0-imap php7.0-curl php7.0-gd php7.0-soap php7.0-xml php7.0-zip php7.0-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
+apt-get install -y mysql-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
 
 phpenmod imap  
 service apache2 restart
@@ -221,10 +221,10 @@ apt install optipng
 apt install pngquant
 
 # добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
-chmod u+w /etc/sudoers
-echo "www-data ALL=(ALL) NOPASSWD: $(dirname "$0")\/\a2clonevhost.sh" >> /etc/sudoers 
+	#chmod u+w /etc/sudoers
+	#echo "www-data ALL=(ALL) NOPASSWD: $(dirname "$0")\/\a2clonevhost.sh" >> /etc/sudoers 
 
-chmod u-w /etc/sudoers
+	#chmod u-w /etc/sudoers
 
 crontab -l > cron.res
 echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
