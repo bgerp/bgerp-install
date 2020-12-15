@@ -140,8 +140,8 @@ then
 fi
 
 #add-apt-repository -y ppa:ondrej/php
-apt-get install software-properties-common
-add-apt-repository -y ppa:inkscape.dev/stable
+#apt-get install software-properties-common
+#add-apt-repository -y ppa:inkscape.dev/stable
 apt-get update
 apt-get -y upgrade
 apt-get install -y mysql-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
