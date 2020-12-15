@@ -217,10 +217,11 @@ apt-get install -y timelimit
 apt-get install -y inkscape
 apt-get install -y tnef
 
-apt install jpegoptim
-apt install libjpeg-turbo-progs
-apt install optipng
-apt install pngquant
+apt install -y jpegoptim
+apt install -y libjpeg-turbo-progs
+apt install -y optipng
+apt install -y pngquant
+apt install -y wget
 
 # добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
 	#chmod u+w /etc/sudoers
