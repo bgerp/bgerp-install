@@ -139,12 +139,11 @@ then
   exit -1
 fi
 
-#add-apt-repository -y ppa:ondrej/php
-#apt-get install software-properties-common
-#add-apt-repository -y ppa:inkscape.dev/stable
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:inkscape.dev/stable
 apt-get update
 apt-get -y upgrade
-apt-get install -y mysql-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
+apt-get install -y mariadb-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
 
 phpenmod imap  
 service apache2 restart
@@ -152,7 +151,7 @@ service apache2 restart
 # GIT
 apt-get install -y git
 cd ${DIRECTORY}
-git clone -b ${BRANCH} http://github.com/bgerp/bgerp.git
+git clone -b ${BRANCH} https://github.com/bgerp/bgerp.git
 cp bgerp/_docs/webroot . -R
 cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
@@ -170,6 +169,7 @@ cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE ${DBNAME};
 CREATE USER ${DBUSERNAME}@localhost IDENTIFIED BY '${DBUSERPASS}';
 GRANT ALL ON ${DBNAME}.* TO ${DBUSERNAME}@localhost;
+
 EOF
 
 mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql
@@ -200,22 +200,20 @@ sed -i "s/# DEFINE('EF_APP_NAME', 'bgerp');/DEFINE('EF_APP_NAME', 'bgerp');/g" w
 chown www-data:www-data ${DIRECTORY} -R
 
 # Допълнителен софтуер
-apt-get install -y wkhtmltopdf
-apt-get install -y xvfb
-apt-get install -y ghostscript
-apt-get install -y imagemagick
-apt-get install -y zbar-tools
-apt-get install -y swftools
-apt-get install -y xpdf-utils
-apt-get install -y p7zip-full
-apt-get install -y p7zip-rar
-apt-get install -y default-jre
-apt-get install -y unoconv
-apt-get install -y timelimit
+apt install -y wkhtmltopdf
+apt install -y xvfb
+apt install -y ghostscript
+apt install -y imagemagick
+apt install -y zbar-tools
+apt install -y xpdf-utils
+apt install -y p7zip-full
+apt install -y p7zip-rar
+apt install -y default-jre
+apt install -y unoconv
+apt install -y timelimit
 
-
-apt-get install -y inkscape
-apt-get install -y tnef
+apt install -y inkscape
+apt install -y tnef
 
 apt install -y jpegoptim
 apt install -y libjpeg-turbo-progs
@@ -224,10 +222,10 @@ apt install -y pngquant
 apt install -y wget
 
 # добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
-	#chmod u+w /etc/sudoers
-	#echo "www-data ALL=(ALL) NOPASSWD: $(dirname "$0")\/\a2clonevhost.sh" >> /etc/sudoers 
+    #chmod u+w /etc/sudoers
+    #echo "www-data ALL=(ALL) NOPASSWD: $(dirname "$0")\/\a2clonevhost.sh" >> /etc/sudoers 
 
-	#chmod u-w /etc/sudoers
+    #chmod u-w /etc/sudoers
 
 crontab -l > cron.res
 echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
