@@ -186,7 +186,7 @@ sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', '${DBUSERNAME}
 sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${DBUSERPASS}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('BGERP_VHOST', 'localhost');/DEFINE('BGERP_VHOST', '${VHOST}');/g" conf/bgerp.cfg.php
 # субституираме абсолютното име скрипта в bgERP-a
-sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT', '');/DEFINE('BGERP_VHOST', '$(dirname "$0")\/\a2clonevhost.sh\');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT', '');/DEFINE('BGERP_VHOST', '`pwd -P`/a2clonevhost.sh');/g" conf/bgerp.cfg.php
 
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
 # задаваме солите със случайни стрингове
