@@ -48,6 +48,7 @@ DBROOTPASS= # if not set by user will be randomly generated
 DBUSERNAME=bgerp
 DBUSERPASS= # if not set by user will be randomly generated
 MYSQLHOST=localhost
+ABSCLONEPATH="`pwd -P`/a2clonevhost.sh"
 
 for i in "$@"
 do
@@ -139,17 +140,13 @@ then
   exit -1
 fi
 
-apt-get install -y software-properties-common
-add-apt-repository -y ppa:inkscape.dev/stable
 apt-get update
 apt-get -y upgrade
-apt-get install -y mariadb-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp
+apt-get install -y mariadb-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
 
 phpenmod imap  
 service apache2 restart
 
-# GIT
-apt-get install -y git
 cd ${DIRECTORY}
 git clone -b ${BRANCH} https://github.com/bgerp/bgerp.git
 cp bgerp/_docs/webroot . -R
@@ -186,8 +183,7 @@ sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', '${DBUSERNAME}
 sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${DBUSERPASS}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('BGERP_VHOST', 'localhost');/DEFINE('BGERP_VHOST', '${VHOST}');/g" conf/bgerp.cfg.php
 # субституираме абсолютното име скрипта в bgERP-a
-ABS_CLONE_PATH="`pwd -P`/a2clonevhost.sh"
-sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT','');/DEFINE('BGERP_VHOST', '${ABS_CLONE_PATH}');/g" conf/bgerp.cfg.php
+sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT','');/DEFINE('BGERP_VHOST', '${ABSCLONEPATH}');/g" conf/bgerp.cfg.php
 
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
 # задаваме солите със случайни стрингове
