@@ -142,7 +142,7 @@ fi
 
 apt-get update
 apt-get -y upgrade
-apt-get install -y mariadb-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
+apt-get install -y mariadb-server php-mysqlnd libapache2-mod-php php-mbstring php-mysqlnd php-imap php-curl php-apcu php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
 
 phpenmod imap  
 service apache2 restart
