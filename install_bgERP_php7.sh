@@ -227,7 +227,7 @@ apt install -y pngquant
 apt install -y wget
 
 # добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
-if [ $ADDSUDO == "yes"]; then
+if [ "$ADDSUDO" == "yes"]; then
     chmod u+w /etc/sudoers
     echo "www-data ALL=(ALL) NOPASSWD: ${ABSCLONEPATH}" >> /etc/sudoers 
     chmod u-w /etc/sudoers
@@ -241,7 +241,7 @@ echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_C
 crontab cron.res
 rm cron.res
 
-if [ $CERT == "yes"]; then
+if [ "$CERT" == "yes"]; then
     echo "Installing Let's Encrypt ..."
     bash letsencrypt.sh -d=${VHOST} -m=${CERTEMAIL}
 else
