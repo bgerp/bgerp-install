@@ -224,7 +224,7 @@ apt install -y wget
 
 # добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
     #chmod u+w /etc/sudoers
-    #echo "www-data ALL=(ALL) NOPASSWD: $(dirname "$0")\/\a2clonevhost.sh" >> /etc/sudoers 
+    #echo "www-data ALL=(ALL) NOPASSWD: ${ABSCLONEPATH}" >> /etc/sudoers 
 
     #chmod u-w /etc/sudoers
 
