@@ -231,6 +231,7 @@ if [ $ADDSUDO == "yes"]; then
     chmod u+w /etc/sudoers
     echo "www-data ALL=(ALL) NOPASSWD: ${ABSCLONEPATH}" >> /etc/sudoers 
     chmod u-w /etc/sudoers
+    chmod +x ${ABSCLONEPATH}
 else
     echo "Not ssl certificate will be installed."
 fi
