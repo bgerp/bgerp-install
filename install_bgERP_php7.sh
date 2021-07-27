@@ -34,6 +34,7 @@ display_help() {
     echo "   -c, --config               Config file for first user, email, company"
     echo "   -l, --cert                 Let's encrypt certificate - yes/no"
     echo "   -e, --certemail            Let's encrypt email"
+    echo "   -o, --addsudo              Add www-data to sudoers - yes/no"
     echo
 
     exit 1
@@ -85,6 +86,9 @@ case $i in
     ;;
     -e=*|--certemail=*)
     CERTEMAIL="${i#*=}"
+    ;;
+    -o=*|--addsudoer=*)
+    ADDSUDO="${i#*=}"
     ;;
     -h=*|--help=*)
     display_help
@@ -223,17 +227,20 @@ apt install -y pngquant
 apt install -y wget
 
 # добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
-    #chmod u+w /etc/sudoers
-    #echo "www-data ALL=(ALL) NOPASSWD: ${ABSCLONEPATH}" >> /etc/sudoers 
-
-    #chmod u-w /etc/sudoers
+if [ $ADDSUDO == "yes"]; then
+    chmod u+w /etc/sudoers
+    echo "www-data ALL=(ALL) NOPASSWD: ${ABSCLONEPATH}" >> /etc/sudoers 
+    chmod u-w /etc/sudoers
+else
+    echo "Not ssl certificate will be installed."
+fi
 
 crontab -l > cron.res
 echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
 crontab cron.res
 rm cron.res
 
-if [[ $CERT ]]; then
+if [ $CERT == "yes"]; then
     echo "Installing Let's Encrypt ..."
     bash letsencrypt.sh -d=${VHOST} -m=${CERTEMAIL}
 else
