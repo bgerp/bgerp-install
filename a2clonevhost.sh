@@ -44,7 +44,7 @@ done
 
 vdomain_file_name=`grep "ServerName $VHOST" $VHOST_AVAILABLE* | grep -v -e "#"`
 
-[ -z "$virtual_file_name" ] && echo "Source virtual host is not found!" && exit 1
+[ -z "$vdomain_file_name" ] && echo "Source virtual host is not found!" && exit 1
 
 
 vdomain_file_name=${vdomain_file_name%:*}
