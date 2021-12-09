@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  erp:
+    container_name: erp
+    image: bgerp:latest
+    ports: 
+      - "8080:8080"
+    volumes:
+      - ./mount:/var/www/mount
+    environment:
+      DBNAME: bgerp
+      DBUSERNAME: bgerp
+      DBUSERPASS: bgerp
+      DBHOST: db
+      VHOST: erp.example.com
+      PASS_SALT: 123123
+  db:
+    container_name: db
+    image: mariadb:10.4
+    ports: 
+      - "3307:3306"
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: bgerp
+      MYSQL_USER: bgerp
+      MYSQL_PASSWORD: bgerp
+      MYSQL_DATABASE: bgerp
+
+networks:
+  default:
+    name: erp
