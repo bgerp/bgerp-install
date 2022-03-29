@@ -135,6 +135,7 @@ fi
 # настройки на апаче
 a2enmod headers
 a2enmod rewrite
+a2enmod ssl
 
 bash a2addvhost.sh -d=${DIRECTORY} -u=${VHOST}
 
