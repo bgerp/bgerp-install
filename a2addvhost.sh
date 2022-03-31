@@ -77,7 +77,7 @@ _s="ServerName\\s\\+.\\+"
 _r="ServerName $VHOST"
 sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST".conf"
 if [ $SSL == "yes" ]; then
-	sed "/^ServerAdmin.*/a ${_r}/g" $VHOST_AVAILABLE$VHOST"-ssl.conf"
+	sed -i "s/ServerAdmin.*/a ${_r}/g" $VHOST_AVAILABLE$VHOST"-ssl.conf"
 	sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST"-ssl.conf"
 fi
 
