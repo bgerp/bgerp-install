@@ -58,6 +58,7 @@ then
     mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME 
 else
     if [ "$(ls -A $DIR)" ]; then
+    	 echo $DIRECTORY"/"$PUBLIC_DIR_NAME " exists"
          exit -1;
     fi    
 fi
