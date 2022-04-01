@@ -131,9 +131,15 @@ if [ ! -f `which mysql` ] ; then
     # check permisions
     RES=`mysql -uroot -p${DBROOTPASS} -e"show databases" | grep -o ${DBNAME} 2>&1`
     if [ "${DBNAME}" = "${RES}" ]; then
-    	echo "DBName exists! -- ${DBNAME}. Use other database name. Instalation stopped."
+    	echo "DBNAME exists! -- ${DBNAME}. Use other DBNAME name. Installation stopped."
     	exit 0
-    fi    
+    fi
+    # Check for existing dbuser
+    RES=`mysql -uroot -p${DBROOTPASS} -e"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '${DBUSERNAME}'")`
+	if [ ${RES} = 1 ]; then
+		echo "DBUSERNAME exists! -- ${DBUSERNAME}. Use other DBUSERNAME name. Installation stopped."
+    	exit 0
+	fi 
 fi
 
 
