@@ -265,16 +265,16 @@ else
 fi
 
 # Create instalation info file
-echo "Installation information for bgERP" > ~/bgerp-install.info
-echo "==================================" >> ~/bgerp-install.info
-echo "DIRECTORY = "${DIRECTORY} >> ~/bgerp-install.info
-echo "VHOST = "${VHOST} >> ~/bgerp-install.info
-echo "BRANCH = "${BRANCH} >> ~/bgerp-install.info
-echo "DBNAME = "${DBNAME} >> ~/bgerp-install.info
-echo "DBROOTPASS = "${DBROOTPASS} >> ~/bgerp-install.info
-echo "DBUSERNAME = "${DBUSERNAME} >> ~/bgerp-install.info
-echo "DBUSERPASS = "${DBUSERPASS} >> ~/bgerp-install.info
-echo "MYSQLHOST = "${MYSQLHOST} >> ~/bgerp-install.info
+echo "Installation information for bgERP" > ~/bgerp-install-"${DBNAME}".info
+echo "==================================" >> ~/bgerp-install-"${DBNAME}".info
+echo "DIRECTORY = "${DIRECTORY} >> ~/bgerp-install-"${DBNAME}".info
+echo "VHOST = "${VHOST} >> ~/bgerp-install-"${DBNAME}".info
+echo "BRANCH = "${BRANCH} >> ~/bgerp-install-"${DBNAME}".info
+echo "DBNAME = "${DBNAME} >> ~/bgerp-install-"${DBNAME}".info
+echo "DBROOTPASS = "${DBROOTPASS} >> ~/bgerp-install-"${DBNAME}".info
+echo "DBUSERNAME = "${DBUSERNAME} >> ~/bgerp-install-"${DBNAME}".info
+echo "DBUSERPASS = "${DBUSERPASS} >> ~/bgerp-install-"${DBNAME}".info
+echo "MYSQLHOST = "${MYSQLHOST} >> ~/bgerp-install-"${DBNAME}".info
 
 echo *****************************************************************
 echo The bgERP system is installed on this server. To open it,   
@@ -282,4 +282,4 @@ echo "load in the browser http://"${VHOST}". The installation"
 echo parameters are saved in the file /root/bgerp-install.info   
 echo *****************************************************************
 
-cat ~/bgerp-install.info
+cat ~/bgerp-install-"${DBNAME}".info
