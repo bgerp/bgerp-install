@@ -123,6 +123,21 @@ done
 
 echo "The installation of bgERP has started. Please be patient. "
 
+# Check for mariadb existence & permisions
+if [ ! -f `which mysql` ] ; then
+	# install mariadb server
+    apt-get install -y mariadb-server
+    else
+    # check permisions
+    RES=`mysql -uroot -p${DBROOTPASS} -e"show databases" | grep -o ${DBNAME} 2>&1`
+    if [ "${DBNAME}" = "${RES}" ]; then
+    	echo "DBName exists! -- ${DBNAME}. Use other database name. Instalation stopped."
+    	exit 0
+    fi    
+fi
+
+
+
 dpkg -s apache2 &> /dev/null
 
 if [ $? -eq 0 ]; then
@@ -145,9 +160,9 @@ then
   exit -1
 fi
 
-apt-get update
-apt-get -y upgrade
-apt-get install -y mariadb-server php-mysql libapache2-mod-php php-mbstring php-imap php-curl php-apcu php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
+#apt-get update
+#apt-get -y upgrade
+apt-get install -y php-mysql libapache2-mod-php php-mbstring php-imap php-curl php-apcu php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
 
 phpenmod imap  
 service apache2 restart
