@@ -135,7 +135,7 @@ if [ ! -f `which mysql` ] ; then
     	exit 0
     fi
     # Check for existing dbuser
-    RES=`mysql -uroot -p${DBROOTPASS} --skip-column-names -e"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '${DBUSERNAME}'")`
+    RES=`mysql -uroot -p${DBROOTPASS} --skip-column-names -e"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '${DBUSERNAME}')"`
 	if [ ${RES} = 1 ]; then
 		echo "DBUSERNAME exists! -- ${DBUSERNAME}. Use other DBUSERNAME name. Installation stopped."
     	exit 0
