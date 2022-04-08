@@ -124,8 +124,9 @@ done
 echo "The installation of bgERP has started. Please be patient. "
 
 # Check for mariadb existence & permisions
-if [ ! -f `which mysql` ] ; then
-	# install mariadb server
+F=`which mysql`
+if [ ! -f "$F" ] ; then
+        # install mariadb server
     apt-get install -y mariadb-server
     else
     # check permisions
