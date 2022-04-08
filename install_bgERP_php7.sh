@@ -123,6 +123,9 @@ done
 
 echo "The installation of bgERP has started. Please be patient. "
 
+apt-get update
+apt-get -y upgrade
+
 # Check for mariadb existence & permisions
 F=`which mysql`
 if [ ! -f "$F" ] ; then
@@ -167,8 +170,6 @@ then
   exit -1
 fi
 
-apt-get update
-apt-get -y upgrade
 apt-get install -y php-mysql libapache2-mod-php php-mbstring php-imap php-curl php-apcu php-gd php-soap php-xml php-zip php-pspell aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
 
 phpenmod imap  
