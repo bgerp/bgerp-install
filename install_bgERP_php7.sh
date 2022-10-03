@@ -178,6 +178,7 @@ service apache2 restart
 cd ${DIRECTORY}
 git clone -b ${BRANCH} https://github.com/bgerp/bgerp.git
 cp bgerp/_docs/webroot . -R
+rm .htaccess
 cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
