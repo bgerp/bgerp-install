@@ -104,7 +104,11 @@ fi
 # Set apache DocumentRoot permissions
 _s=$DIRECTORY"/"$PUBLIC_DIR_NAME
 _a='<Directory '$DIRECTORY'/'$PUBLIC_DIR_NAME'/>'
-_a+='\n <IfModule mod_rewrite.c>\n RewriteEngine On \nRewriteCond %{REQUEST_FILENAME} !-d \n RewriteCond %{REQUEST_FILENAME} !-f \n RewriteRule ^(.*)$ index.php?virtual_url=$1 [QSA,L]'
+_a+='\n <IfModule mod_rewrite.c>'
+_a+='\n     RewriteEngine On'
+_a+='\n     RewriteCond %{REQUEST_FILENAME} !-d'
+_a+='\n     RewriteCond %{REQUEST_FILENAME} !-f'
+_a+='\n     RewriteRule ^(.*)$ index.php?virtual_url=$1 [QSA,L]'
 _a+='\n </IfModule>'
 _a+='\n <IfModule mod_deflate.c>'
 _a+='\n     AddOutputFilter DEFLATE php'
@@ -117,7 +121,7 @@ _a+='\n </IfModule>'
 _a+='\n     Options Indexes FollowSymLinks \nAllowOverride None \nRequire all granted'
 _a+='\n </Directory>'
 
-_a+='<Directory '$DIRECTORY'/'$PUBLIC_DIR_NAME'/sbf/bgerp/>'
+_a+='\n <Directory '$DIRECTORY'/'$PUBLIC_DIR_NAME'/sbf/bgerp/>'
 _a+='\n <IfModule mod_headers.c>'
 _a+='\n     <FilesMatch "\.(pdf|doc|docs|html|htm|txt|rtf|xls)$">' 
 _a+='\n         Header set X-Robots-Tag "noindex, nofollow"'
