@@ -262,7 +262,7 @@ else
 fi
 
 crontab -l > cron.res
-echo "* * * * * wget -q --spider --no-check-certificate http://"${VHOST}"/core_Cron/cron" >> cron.res
+echo "* * * * * wget -q --spider --no-check-certificate https://"${VHOST}"/core_Cron/cron" >> cron.res
 crontab cron.res
 rm cron.res
 
