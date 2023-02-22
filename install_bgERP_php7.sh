@@ -188,7 +188,7 @@ phpenmod imap
 service apache2 restart
 
 cd ${DIRECTORY}
-git clone -b ${BRANCH} https://github.com/bgerp/bgerp.git
+git clone -b ${BRANCH} --single-branch https://github.com/bgerp/bgerp.git
 cp bgerp/_docs/webroot . -R
 rm .htaccess
 cp bgerp/_docs/conf . -R
