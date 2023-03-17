@@ -14,7 +14,8 @@ echo "_________________________________________________________________"
 
 ROOT_UID=0
 NOTROOT=87
-# Check if user is root
+
+# Проверка дали работим като root потребител
 if [ $UID -ne $ROOT_UID ]
     then echo “You will need to be root or use sudo to start this instalation” 
     exit $NOTROOT
@@ -41,14 +42,14 @@ display_help() {
     exit 1
 }
 
-# set defaults
+# Задаване на стойности на нужните параметри по подразбиране
 DIRECTORY=/var/www
 VHOST=localhost
 BRANCH=master
 DBNAME=bgerp
-DBROOTPASS= # if not set by user will be randomly generated 
+DBROOTPASS= # ако не е зададена от потребителя, ще се генерира на случаен принцип
 DBUSERNAME=bgerp
-DBUSERPASS= # if not set by user will be randomly generated
+DBUSERPASS= # ако не е зададена от потребителя, ще се генерира на случаен принцип
 MYSQLHOST=localhost
 ABSCLONEPATH="`pwd -P`/a2clonevhost.sh"
 
@@ -95,21 +96,21 @@ case $i in
     display_help
     ;;
     *)
-    # unknown option
+    # непозната опция
     display_help
     ;;
 esac
 done
 
-# instalation info
+# Показване на информация за параметрите на настоящата инсталация
 echo Installation information for bgERP:
 echo DIRECTORY = ${DIRECTORY}
 echo VHOST = ${VHOST}
 echo BRANCH = ${BRANCH}
 echo DBNAME = ${DBNAME}
-echo DBROOTPASS = ${DBROOTPASS} # will be randomly generated
+echo DBROOTPASS = ${DBROOTPASS} # паролата ще бъде генерирана на случаен принцип
 echo DBUSERNAME = ${DBUSERNAME}
-echo DBUSERPASS = ${DBUSERPASS} # will be randomly generated
+echo DBUSERPASS = ${DBUSERPASS} # паролата ще бъде генерирана на случаен принцип
 echo MYSQLHOST = ${MYSQLHOST}
 echo CERT = ${CERT}
 echo CERTEMAIL = ${CERTEMAIL}
@@ -125,22 +126,24 @@ done
 echo "The installation of bgERP has started. Please be patient. "
 
 
+# Актуализиране на системните пакети
 apt-get update
 apt-get -y upgrade
 
-# Check for mariadb existence & permisions
+
+# Проверка дали има инсталиран MariaDB и са налице нужните разрешения
 F=`which mysql`
 if [ ! -f "$F" ] ; then
         # install mariadb server
     apt-get install -y mariadb-server
     else
-    # check permisions
+    # проверка на разрешенията
     RES=`mysql -uroot -p${DBROOTPASS} -e"show databases" | grep -o ${DBNAME} 2>&1`
     if [ "${DBNAME}" = "${RES}" ]; then
     	echo "DBNAME exists! -- ${DBNAME}. Use other DBNAME name. Installation stopped."
     	exit 0
     fi
-    # Check for existing dbuser
+    # проверка за съществуващ потребител на базата
     RES=`mysql -uroot -p${DBROOTPASS} --skip-column-names -e"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '${DBUSERNAME}')"`
 	if [ ${RES} = 1 ]; then
 		echo "DBUSERNAME exists! -- ${DBUSERNAME}. Use other DBUSERNAME name. Installation stopped."
@@ -159,7 +162,7 @@ else
     apt-get install -y apache2
 fi
 
-# настройки на апаче
+# Настройки на Апаче
 a2enmod headers
 a2enmod rewrite
 a2enmod ssl
@@ -175,7 +178,7 @@ fi
 . /etc/os-release
 
 if [ $VERSION_ID = 22.04 ]; then
-		# install php 7.4
+		# да се инсталира php 7.4
 		apt install software-properties-common
 		add-apt-repository ppa:ondrej/php -y
 		apt-get install -y php7.4-mysql libapache2-mod-php7.4 php7.4-mbstring php7.4-imap php7.4-curl php7.4-apcu php7.4-gd php7.4-soap php7.4-xml php7.4-zip php7.4-pspell php7.4-ssh2 aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
@@ -218,16 +221,18 @@ mysql -uroot -p${DBROOTPASS} < /tmp/mysqldb.sql
 rm /tmp/mysqldb.sql
 
 
-# подменяме името на приложението, потребителя и домейна по подразбиране
+# Подменяме името на приложението, потребителя и домейна по подразбиране
 sed -i "s/DEFINE('EF_DB_NAME', EF_APP_NAME);/DEFINE('EF_DB_NAME', '${DBNAME}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', '${DBUSERNAME}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${DBUSERPASS}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('BGERP_VHOST', 'localhost');/DEFINE('BGERP_VHOST', '${VHOST}');/g" conf/bgerp.cfg.php
-# субституираме абсолютното име скрипта в bgERP-a
+
+# Субституираме абсолютното име скрипта в bgERP-a
 sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT','');/DEFINE('BGERP_VHOST', '${ABSCLONEPATH//\//\\/}');/g" conf/bgerp.cfg.php
 
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
-# задаваме солите със случайни стрингове
+
+# Садаваме солите със случайни стрингове
 PASS_SALT=$( cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 sed -i "s/DEFINE('EF_USERS_PASS_SALT', '');/DEFINE('EF_USERS_PASS_SALT', '${PASS_SALT}');/g" conf/bgerp.cfg.php
 EF_SALT=$( cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
@@ -235,13 +240,13 @@ sed -i "s/DEFINE('EF_SALT', '');/DEFINE('EF_SALT', '${EF_SALT}');/g" conf/bgerp.
 
 sed -i "s/DEFINE('BGERP_GIT_BRANCH', 'master');/DEFINE('BGERP_GIT_BRANCH', '${BRANCH}');/g" conf/bgerp.cfg.php
 
-# задаваме пътя до EF_ROOT и името на приложението
+# Задаваме пътя до EF_ROOT и името на приложението
 sed -i "s/# DEFINE('EF_ROOT_PATH', '\[#PATH_TO_FOLDER#\]');/DEFINE( 'EF_ROOT_PATH', '"${DIRECTORY//\//\\/}"');/g" webroot/index.cfg.php
 sed -i "s/# DEFINE('EF_APP_NAME', 'bgerp');/DEFINE('EF_APP_NAME', 'bgerp');/g" webroot/index.cfg.php
 
 chown www-data:www-data ${DIRECTORY} -R
 
-# Допълнителен софтуер
+# Инсталиране на допълнителен софтуер
 apt install -y wkhtmltopdf
 apt install -y xvfb
 apt install -y ghostscript
@@ -263,7 +268,7 @@ apt install -y optipng
 apt install -y pngquant
 apt install -y wget
 
-# добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
+# Добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
 if [ "$ADDSUDO" == "yes" ]; then
     chmod u+w /etc/sudoers
     echo "www-data ALL=(ALL) NOPASSWD: ${ABSCLONEPATH}" >> /etc/sudoers 
@@ -285,7 +290,7 @@ else
     echo "Not ssl certificate will be installed."
 fi
 
-# Create instalation info file
+# Създаване на файл, съдържащ информация с детайлите на инсталацията
 echo "Installation information for bgERP" > ~/bgerp-install-"${DBNAME}".info
 echo "==================================" >> ~/bgerp-install-"${DBNAME}".info
 echo "DIRECTORY = "${DIRECTORY} >> ~/bgerp-install-"${DBNAME}".info
