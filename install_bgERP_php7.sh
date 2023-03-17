@@ -15,12 +15,13 @@ echo "_________________________________________________________________"
 ROOT_UID=0
 NOTROOT=87
 
-# Проверка дали работим като root потребител
+# Проверка дали скрипта е стартиран като root потребител
 if [ $UID -ne $ROOT_UID ]
     then echo “You will need to be root or use sudo to start this instalation” 
     exit $NOTROOT
 fi
 
+# Функция за помощно меню
 display_help() {
     echo "Usage: $0 [option= ...] " >&2
     echo
@@ -143,7 +144,7 @@ if [ ! -f "$F" ] ; then
     	echo "DBNAME exists! -- ${DBNAME}. Use other DBNAME name. Installation stopped."
     	exit 0
     fi
-    # проверка за съществуващ потребител на базата
+    # проверка за съществуващ потребител на базата данни
     RES=`mysql -uroot -p${DBROOTPASS} --skip-column-names -e"SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '${DBUSERNAME}')"`
 	if [ ${RES} = 1 ]; then
 		echo "DBUSERNAME exists! -- ${DBUSERNAME}. Use other DBUSERNAME name. Installation stopped."
