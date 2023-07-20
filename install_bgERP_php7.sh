@@ -184,7 +184,11 @@ if [ $VERSION_ID = 22.04 ]; then
 		apt-get install -y php-mysql libapache2-mod-php php-mbstring php-imap php-curl php-apcu php-gd php-soap php-xml php-zip php-pspell php-ssh2 aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
 fi
 
-phpenmod imap  
+phpenmod imap 
+
+# конфигурираме php 
+bash configure_php.ini.sh
+
 service apache2 restart
 
 cd ${DIRECTORY}
