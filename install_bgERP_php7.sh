@@ -195,7 +195,6 @@ cd ${DIRECTORY}
 git clone -b ${BRANCH} --single-branch https://github.com/bgerp/bgerp.git
 cp bgerp/_docs/webroot . -R
 rm .htaccess
-rm favicon.ico
 cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
