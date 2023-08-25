@@ -89,8 +89,6 @@ if [ $SSL == "yes" ]; then
 	sed -i "s/${_s}/${_r}/g" $VHOST_AVAILABLE$VHOST"-ssl.conf"
 fi
 
-
-
 # Write new DocumentRoot
 _s=$default_path
 _r=$DIRECTORY"/"$PUBLIC_DIR_NAME
@@ -109,6 +107,21 @@ _a+='\n     	RewriteEngine On'
 _a+='\n     	RewriteCond %{REQUEST_FILENAME} !-d'
 _a+='\n     	RewriteCond %{REQUEST_FILENAME} !-f'
 _a+='\n     	RewriteRule ^(.*)$ index.php?virtual_url=$1 [QSA,L]'
+
+# За избягване на възможността за 2 сесии
+WWW="${VHOST:0:3}"
+WWW=$(echo $WWW | tr '[:upper:]' '[:lower:]')
+# Ако $VHOST започва с www добавяме правило - ако няма www - добавяме www
+if [ $WWW == "www" ]; then
+	_a+='\n     	RewriteCond %${VHOST} !^www\. [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ http://www.%${VHOST}%{REQUEST_URI} [R=301,L]'
+fi
+
+# Ако $VHOST не започва с www добавяме правило - ако има www - махаме www
+if [ $WWW != "www" ]; then
+	_a+='\n     	RewriteCond %{HTTP_HOST} ^www.${VHOST} [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ http://${VHOST}/$1 [L,R=301]'
+fi
 _a+='\n 	</IfModule>'
 _a+='\n 	<IfModule mod_deflate.c>'
 _a+='\n     	AddOutputFilter DEFLATE php'
