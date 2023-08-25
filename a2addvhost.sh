@@ -113,14 +113,14 @@ WWW="${VHOST:0:3}"
 WWW=$(echo $WWW | tr '[:upper:]' '[:lower:]')
 # Ако $VHOST започва с www добавяме правило - ако няма www - добавяме www
 if [ $WWW == "www" ]; then
-	_a+='\n     	RewriteCond %${VHOST} !^www\. [NC]'
-	_a+='\n     	RewriteRule ^(.*)$ http://www.%${VHOST}%{REQUEST_URI} [R=301,L]'
+	_a+='\n     	RewriteCond %${HTTP_HOST} !^www\. [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ http://www.%${HTTP_HOST}%{REQUEST_URI} [R=301,L]'
 fi
 
 # Ако $VHOST не започва с www добавяме правило - ако има www - махаме www
 if [ $WWW != "www" ]; then
-	_a+='\n     	RewriteCond %{HTTP_HOST} ^www.${VHOST} [NC]'
-	_a+='\n     	RewriteRule ^(.*)$ http://${VHOST}/$1 [L,R=301]'
+	_a+='\n     	RewriteCond %{HTTP_HOST} ^www\. [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ http://${HTTP_HOST}/$1 [L,R=301]'
 fi
 _a+='\n 	</IfModule>'
 _a+='\n 	<IfModule mod_deflate.c>'
