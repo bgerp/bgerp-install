@@ -113,14 +113,24 @@ WWW="${VHOST:0:3}"
 WWW=$(echo $WWW | tr '[:upper:]' '[:lower:]')
 # Ако $VHOST започва с www добавяме правило - ако няма www - добавяме www
 if [ $WWW == "www" ]; then
-	_a+='\n     	RewriteCond %${HTTP_HOST} !^www\. [NC]'
-	_a+='\n     	RewriteRule ^(.*)$ http://www.%${HTTP_HOST}%{REQUEST_URI} [R=301,L]'
+	_a+='\n     	RewriteCond %{HTTPS} off'
+	_a+='\n     	RewriteCond %{HTTP_HOST} !^www\.(.*)$ [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]'
+
+	_a+='\n     	RewriteCond %{HTTPS} on'
+	_a+='\n     	RewriteCond %{HTTP_HOST} !^www\.(.*)$ [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]'
 fi
 
 # Ако $VHOST не започва с www добавяме правило - ако има www - махаме www
 if [ $WWW != "www" ]; then
-	_a+='\n     	RewriteCond %{HTTP_HOST} ^www\. [NC]'
-	_a+='\n     	RewriteRule ^(.*)$ http://${HTTP_HOST}/$1 [L,R=301]'
+	_a+='\n     	RewriteCond %{HTTPS} off'
+	_a+='\n     	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ http://%1/$1 [R=301,L]'
+
+	_a+='\n     	RewriteCond %{HTTPS} on'
+	_a+='\n     	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]'
+	_a+='\n     	RewriteRule ^(.*)$ https://%1/$1 [R=301,L]'
 fi
 _a+='\n 	</IfModule>'
 _a+='\n 	<IfModule mod_deflate.c>'
