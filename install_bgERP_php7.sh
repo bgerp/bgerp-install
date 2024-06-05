@@ -178,7 +178,7 @@ fi
 
 . /etc/os-release
 
-if [ $VERSION_ID = 22.04 ]; then
+if [ $VERSION_ID = 22.04 ] || [ $VERSION_ID = 24.04 ]; then
 		# да се инсталира php 7.4
 		apt install software-properties-common
 		add-apt-repository ppa:ondrej/php -y
