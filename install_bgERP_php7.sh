@@ -262,6 +262,7 @@ apt install -y p7zip-full
 apt install -y p7zip-rar
 apt install -y default-jre
 apt install -y unoconv
+apt install -y python3-setuptools-gettext
 apt install -y timelimit
 
 apt install -y inkscape
