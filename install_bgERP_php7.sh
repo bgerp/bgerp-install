@@ -273,6 +273,8 @@ apt install -y libjpeg-turbo-progs
 apt install -y optipng
 apt install -y pngquant
 apt install -y wget
+apt install -y ffmpeg
+
 
 # Добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
 if [ "$ADDSUDO" == "yes" ]; then
