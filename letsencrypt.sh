@@ -9,6 +9,18 @@ if [ $UID -ne $ROOT_UID ]
     exit $NOTROOT
 fi
 
+# Основна проверка за Ubuntu
+if ! grep -iq "ubuntu" /etc/os-release; then
+  echo "Error: This script is designed to run on an Ubuntu Server only"
+  exit 1
+else
+  # Проверка за версиата на Ubuntu
+  ubuntu_version=$(grep "VERSION=" /etc/os-release | sed 's/VERSION=//g' | tr -d '"')
+
+  # Показване на версията на Ubuntu
+  echo "This system is running Ubuntu. Version details: $ubuntu_version"
+fi
+
 display_help() {
     echo "Usage: $0 [option= ...] " >&2
     echo
