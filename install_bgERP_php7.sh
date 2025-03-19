@@ -30,7 +30,7 @@ else
   ubuntu_version=$(grep "VERSION=" /etc/os-release | sed 's/VERSION=//g' | tr -d '"')
 
   # Показване на версията на Ubuntu
-  echo "This system is running Ubuntu. Version details: $ubuntu_version"
+  echo "UBUNTU: $ubuntu_version"
 fi
 
 # Функция за помощно меню
