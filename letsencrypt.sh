@@ -21,6 +21,16 @@ else
   echo "This system is running Ubuntu. Version details: $ubuntu_version"
 fi
 
+# Провери дали curl e инсталиран
+if ! command -v curl &> /dev/null; then
+    sudo apt-get install -y curl
+    if [ $? -eq 0 ]; then
+        echo "curl installed successfully."
+    else
+        echo "Failed to install curl. Please check your system configuration."
+    fi
+fi
+
 display_help() {
     echo "Usage: $0 [option= ...] " >&2
     echo
