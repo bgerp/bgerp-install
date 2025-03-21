@@ -23,11 +23,12 @@ fi
 
 # Провери дали curl e инсталиран
 if ! command -v curl &> /dev/null; then
-    sudo apt-get install -y curl
+    apt-get install -y curl
     if [ $? -eq 0 ]; then
         echo "curl installed successfully."
     else
         echo "Failed to install curl. Please check your system configuration."
+        exit 1
     fi
 fi
 
