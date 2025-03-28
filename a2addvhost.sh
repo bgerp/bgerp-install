@@ -57,7 +57,7 @@ if [ ! -d "$DIRECTORY"/"$PUBLIC_DIR_NAME" ]
 then
     mkdir -p -v $DIRECTORY"/"$PUBLIC_DIR_NAME 
 else
-    if [ "$(ls -A $DIR)" ]; then
+    if [ "$(ls -A $DIRECTORY)" ]; then
     	 echo $DIRECTORY"/"$PUBLIC_DIR_NAME " exists"
          exit -1;
     fi    

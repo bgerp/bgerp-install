@@ -261,8 +261,6 @@ sed -i "s/DEFINE('BGERP_GIT_BRANCH', 'master');/DEFINE('BGERP_GIT_BRANCH', '${BR
 sed -i "s/# DEFINE('EF_ROOT_PATH', '\[#PATH_TO_FOLDER#\]');/DEFINE( 'EF_ROOT_PATH', '"${DIRECTORY//\//\\/}"');/g" webroot/index.cfg.php
 sed -i "s/# DEFINE('EF_APP_NAME', 'bgerp');/DEFINE('EF_APP_NAME', 'bgerp');/g" webroot/index.cfg.php
 
-chown www-data:www-data ${DIRECTORY} -R
-
 # Инсталиране на допълнителен софтуер
 apt install -y wkhtmltopdf
 apt install -y xvfb
@@ -287,6 +285,20 @@ apt install -y pngquant
 apt install -y wget
 
 bash FFMpegSetup.sh
+
+# Ако tifig е инсталиран успешно добавяме константа в bgerp.cfg.php файла
+bash tifig_add.sh -d=${DIRECTORY}
+if [ $? -eq 0 ]; then
+	FILE=${DIRECTORY}"conf/bgerp.cfg.php"
+	echo "DEFINE('TIFIG_PATH','${TARGET_DIR}/tifig');" >> "$FILE"
+	echo "tifig е описан успешно в $FILE."
+else
+    echo "Скриптът не се изпълни успешно."
+fi
+
+
+chown www-data:www-data ${DIRECTORY} -R
+
 
 # Добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
 if [ "$ADDSUDO" == "yes" ]; then
