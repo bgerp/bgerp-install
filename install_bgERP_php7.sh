@@ -217,13 +217,15 @@ cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
 # Ако не е зададена - генерираме 6 символна парола за root потребителя на MySQL-a
-[[  -z  ${DBROOTPASS}  ]] && DBROOTPASS=`openssl rand -base64 32` && DBROOTPASS=${DBROOTPASS//\/\//} && DBROOTPASS=${DBUSERPASS:3:6}
+[[  -z  ${DBROOTPASS}  ]] && DBROOTPASS=`openssl rand -base64 32` && DBROOTPASS=${DBROOTPASS//\//} && DBROOTPASS=${DBUSERPASS:3:6}
+${DBROOTPASS//\\/}
 # сменяме паролата на MySQL-a
 mysqladmin -uroot password ${DBROOTPASS}
 
 
 # Ако не е зададена - генерираме 6 символна парола за потребителя
-[[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${DBUSERPASS//\/\//} && DBUSERPASS=${DBUSERPASS:3:6} 
+[[  -z  ${DBUSERPASS}  ]] && DBUSERPASS=`openssl rand -base64 32` && DBUSERPASS=${DBUSERPASS//\//} && DBUSERPASS=${DBUSERPASS:3:6} 
+${DBUSERPASS//\\/}
 
 cat > /tmp/mysqldb.sql << EOF
 CREATE DATABASE ${DBNAME};
@@ -251,7 +253,7 @@ sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT','');/DEFINE('BGERP_CLONE_VHOST_SCRIP
 
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
 
-# Садаваме солите със случайни стрингове
+# Задаваме солите със случайни стрингове
 PASS_SALT=$( cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
 sed -i "s/DEFINE('EF_USERS_PASS_SALT', '');/DEFINE('EF_USERS_PASS_SALT', '${PASS_SALT}');/g" conf/bgerp.cfg.php
 EF_SALT=$( cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
