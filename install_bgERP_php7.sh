@@ -138,6 +138,8 @@ done
 
 echo "The installation of bgERP has started. Please be patient. "
 
+# Запазване на директорията, от която е стартиран скриптът
+START_DIR=$(pwd)
 
 # Актуализиране на системните пакети
 apt-get update
@@ -284,13 +286,10 @@ apt install -y optipng
 apt install -y pngquant
 apt install -y wget
 
-# Определяне на директорията, в която се намира текущият скрипт
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-bash "$SCRIPT_DIR/FFMpegSetup.sh"
+bash "$START_DIR/FFMpegSetup.sh"
 
 # Ако tifig е инсталиран успешно добавяме константа в bgerp.cfg.php файла
-bash "$SCRIPT_DIR/tifig_add.sh" -d=${DIRECTORY}
+bash "$START_DIR/tifig_add.sh" -d=${DIRECTORY}
 if [ $? -eq 0 ]; then
 	FILE=${DIRECTORY}"conf/bgerp.cfg.php"
 	echo "DEFINE('TIFIG_PATH','${TARGET_DIR}/tifig');" >> "$FILE"
