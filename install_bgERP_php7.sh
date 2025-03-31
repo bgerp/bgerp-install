@@ -217,7 +217,7 @@ cp bgerp/_docs/conf . -R
 mv conf/myapp.cfg.php conf/bgerp.cfg.php
 
 # Ако не е зададена - генерираме 6 символна парола за root потребителя на MySQL-a
-[[  -z  ${DBROOTPASS}  ]] && DBROOTPASS=`openssl rand -base64 32` && DBROOTPASS=${DBROOTPASS//\//} && DBROOTPASS=${DBUSERPASS:3:6}
+[[  -z  ${DBROOTPASS}  ]] && DBROOTPASS=`openssl rand -base64 32` && DBROOTPASS=${DBROOTPASS//\//} && DBROOTPASS=${DBROOTPASS:3:6}
 DBROOTPASS=${DBROOTPASS//\\/}
 # сменяме паролата на MySQL-a
 mysqladmin -uroot password ${DBROOTPASS}
@@ -294,7 +294,7 @@ bash "$START_DIR/FFMpegSetup.sh"
 bash "$START_DIR/tifig_add.sh" -d=${DIRECTORY}
 if [ $? -eq 0 ]; then
 	FILE=${DIRECTORY}"/conf/bgerp.cfg.php"
-	echo "DEFINE('TIFIG_PATH','${TARGET_DIR}/tifig');" >> "$FILE"
+	echo "DEFINE('TIFIG_PATH','${DIRECTORY}/tifig');" >> "$FILE"
 	echo "tifig е описан успешно в $FILE."
 else
     echo "Скриптът не се изпълни успешно."
