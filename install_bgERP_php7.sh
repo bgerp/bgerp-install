@@ -293,7 +293,7 @@ bash "$START_DIR/FFMpegSetup.sh"
 # Ако tifig е инсталиран успешно добавяме константа в bgerp.cfg.php файла
 bash "$START_DIR/tifig_add.sh" -d=${DIRECTORY}
 if [ $? -eq 0 ]; then
-	FILE=${DIRECTORY}"conf/bgerp.cfg.php"
+	FILE=${DIRECTORY}"/conf/bgerp.cfg.php"
 	echo "DEFINE('TIFIG_PATH','${TARGET_DIR}/tifig');" >> "$FILE"
 	echo "tifig е описан успешно в $FILE."
 else
