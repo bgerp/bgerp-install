@@ -294,7 +294,7 @@ bash "$START_DIR/FFMpegSetup.sh"
 bash "$START_DIR/tifig_add.sh" -d=${DIRECTORY}
 if [ $? -eq 0 ]; then
 	FILE=${DIRECTORY}"/conf/bgerp.cfg.php"
-	echo "DEFINE('TIFIG_PATH','${DIRECTORY}/tifig');" >> "$FILE"
+	echo -e "\n\n/**\n * Път до tfig\n */\nDEFINE('TIFIG_PATH','${DIRECTORY}/tifig');" >> "$FILE"
 	echo "tifig е описан успешно в $FILE."
 else
     echo "Скриптът не се изпълни успешно."
