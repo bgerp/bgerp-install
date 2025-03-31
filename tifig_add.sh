@@ -52,14 +52,14 @@ FILE_URL="https://github.com/monostream/tifig/releases/download/0.2.2/tifig-stat
 # Създаваме временна директория
 TMP_DIR=$(mktemp -d)
 ARCHIVE="$TMP_DIR/tifig-static-0.2.2.tar.gz"
-echo "Изтеглям файла от $FILE_URL..."
+echo "Изтегляне файл от $FILE_URL..."
 if ! curl -L "$FILE_URL" -o "$ARCHIVE"; then
   echo "Грешка: Неуспешно изтегляне на файла от $FILE_URL."
   exit -1;
 else
   echo "Файлът беше изтеглен успешно."
 fi
-echo "Опитвам се да разархивирам файла..."
+echo "Разархивиране на файла..."
 if ! tar -xzf "$ARCHIVE" -C "$TMP_DIR"; then
   echo "Грешка: Неуспешно разархивиране на $ARCHIVE."
   exit -1;
