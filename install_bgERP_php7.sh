@@ -288,6 +288,7 @@ apt install -y libjpeg-turbo-progs
 apt install -y optipng
 apt install -y pngquant
 apt install -y wget
+apt install -y curl
 
 bash "$START_DIR/FFMpegSetup.sh"
 
