@@ -102,6 +102,7 @@ fi
 # Set apache DocumentRoot permissions
 _s=$DIRECTORY"/"$PUBLIC_DIR_NAME
 _a=' <Directory '$DIRECTORY'/'$PUBLIC_DIR_NAME'/>'
+_a+='\n 	AllowMethods GET POST HEAD'
 _a+='\n     <IfModule mod_rewrite.c>'
 _a+='\n     	RewriteEngine On'
 _a+='\n     	RewriteCond %{REQUEST_FILENAME} !-d'

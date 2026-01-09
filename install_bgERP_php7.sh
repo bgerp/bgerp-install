@@ -181,6 +181,7 @@ fi
 a2enmod headers
 a2enmod rewrite
 a2enmod ssl
+a2enmod allowmethods
 
 bash a2addvhost.sh -d=${DIRECTORY} -u=${VHOST} -s=yes
 
@@ -288,6 +289,7 @@ apt install -y libjpeg-turbo-progs
 apt install -y optipng
 apt install -y pngquant
 apt install -y wget
+apt install -y curl
 
 bash "$START_DIR/FFMpegSetup.sh"
 
