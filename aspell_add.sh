@@ -11,14 +11,6 @@ if [ "$EUID" -ne "$ROOT_UID" ]; then
     exit "$NOTROOT"
 fi
 
-display_help() {
-    echo "Usage: $0 [option= ...]" >&2
-    echo
-    echo "   -h, --help                 Show this help"
-    echo
-    exit 1
-}
-
 wget https://ftp.gnu.org/gnu/aspell/dict/bg/aspell6-bg-4.1-0.tar.bz2
 tar -xf aspell6-bg-4.1-0.tar.bz2
 cd aspell6-bg-4.1-0 || exit 1
@@ -29,4 +21,8 @@ apt install -y make aspell
 make
 make install
 
-aspell -l bg dump master | grep здравей
+if aspell -l bg dump master | grep -q "здравей"; then
+    echo "aspell инсталиран - ОК"
+else
+    echo "aspell не е инсталиран или речникът не работи"
+fi
