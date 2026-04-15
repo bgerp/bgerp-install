@@ -303,6 +303,9 @@ else
     echo "Скриптът не се изпълни успешно."
 fi
 
+# добавяме bg aspell
+bash "$START_DIR/aspell_add.sh"
+
 
 chown www-data:www-data ${DIRECTORY} -R
 
