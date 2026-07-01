@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /etc/os-release
+
 if [ "$VERSION_ID" = "24.04" ]; then
 		# Ubuntu 24.04
 		export PHP_INI_PATH=/etc/php/7.4/apache2/php.ini
