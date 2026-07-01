@@ -197,12 +197,20 @@ if [ "$VERSION_ID" = "24.04" ]; then
 		# Ubuntu 24.04 - инсталира php 7.4
 		apt install software-properties-common
 		add-apt-repository ppa:ondrej/php -y
+		
 		apt-get install -y php7.4-mysql libapache2-mod-php7.4 php7.4-mbstring php7.4-imap php7.4-curl php7.4-apcu php7.4-gd php7.4-soap php7.4-xml php7.4-zip php7.4-pspell php7.4-ssh2 aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
+	
 	elif [ "$VERSION_ID" = "26.04" ]; then
 		# Ubuntu 26.04 - инсталира php 8.2
-		apt install software-properties-common
-		add-apt-repository ppa:ondrej/php -y
+		apt install -y ca-certificates curl lsb-release apt-transport-https gnupg
+		curl -fsSL https://packages.sury.org/php/apt.gpg \
+  		| gpg --dearmor -o /usr/share/keyrings/debsuryorg-archive-keyring.gpg
+		echo "deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" \
+  		| tee /etc/apt/sources.list.d/php-sury.list
+		apt update		
+		
 		apt-get install -y php8.2-mysql libapache2-mod-php8.2 php8.2-mbstring php8.2-imap php8.2-curl php8.2-apcu php8.2-gd php8.2-soap php8.2-xml php8.2-zip php8.2-pspell php8.2-ssh2 aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
+	
 	else
 		apt-get install -y php-mysql libapache2-mod-php php-mbstring php-imap php-curl php-apcu php-gd php-soap php-xml php-zip php-pspell php-ssh2 aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
 fi
