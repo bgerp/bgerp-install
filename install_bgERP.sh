@@ -207,7 +207,11 @@ if [ "$VERSION_ID" = "24.04" ]; then
   		| gpg --dearmor -o /usr/share/keyrings/debsuryorg-archive-keyring.gpg
 		echo "deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" \
   		| tee /etc/apt/sources.list.d/php-sury.list
+		// wkhtmltox - install
+		apt install -y fontconfig xfonts-base xfonts-75dpi libxrender1 libxext6 libjpeg-turbo8
+		wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
 		apt update		
+        apt install -y ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb  		
 		
 		apt-get install -y php8.2-mysql libapache2-mod-php8.2 php8.2-mbstring php8.2-imap php8.2-curl php8.2-apcu php8.2-gd php8.2-soap php8.2-xml php8.2-zip php8.2-pspell php8.2-ssh2 aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl webp git
 	
