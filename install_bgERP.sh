@@ -145,6 +145,9 @@ START_DIR=$(pwd)
 apt-get update
 apt-get -y upgrade
 
+TIMEZONE="Europe/Sofia"
+timedatectl set-timezone "$TIMEZONE"
+echo "Timezone set to: $(timedatectl show -p Timezone --value)"
 
 # Проверка дали има инсталиран MariaDB и са налице нужните разрешения
 F=`which mysql`
