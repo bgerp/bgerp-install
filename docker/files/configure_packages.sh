@@ -77,8 +77,6 @@ sed -i "s/DEFINE('EF_DB_NAME', EF_APP_NAME);/DEFINE('EF_DB_NAME', getenv('DBNAME
 sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', getenv('DBUSERNAME'));/g" /var/www/conf/bgerp.cfg.php
 sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', getenv('DBUSERPASS'));/g" /var/www/conf/bgerp.cfg.php
 sed -i "s/DEFINE('BGERP_VHOST', 'localhost');/DEFINE('BGERP_VHOST', getenv('VHOST'));/g" /var/www/conf/bgerp.cfg.php
-# субституираме абсолютното име скрипта в bgERP-a
-sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT','');/DEFINE('BGERP_VHOST', getenv('ABSCLONEPATH'));/g" /var/www/conf/bgerp.cfg.php
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 200);/g" /var/www/conf/bgerp.cfg.php
 # задаваме солите със случайни стрингове
 sed -i "s/DEFINE('EF_USERS_PASS_SALT', '');/DEFINE('EF_USERS_PASS_SALT', getenv('PASS_SALT'));/g" /var/www/conf/bgerp.cfg.php

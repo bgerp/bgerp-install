@@ -46,10 +46,6 @@ display_help() {
     echo "   -s, --dbusername           database user name"
     echo "   -a, --dbuserpass           database user password"
     echo "   -m, --mysqlhost            MySQL host address"
-    echo "   -c, --config               Config file for first user, email, company"
-    echo "   -l, --cert                 Let's encrypt certificate - yes/no"
-    echo "   -e, --certemail            Let's encrypt email"
-    echo "   -o, --addsudo              Add www-data to sudoers - yes/no"
     echo "   -f, --php-mode             PHP handler: apache (default) or fpm"
     echo
 
@@ -66,7 +62,6 @@ DBUSERNAME=bgerp
 DBUSERPASS= # ако не е зададена от потребителя, ще се генерира на случаен принцип
 MYSQLHOST=localhost
 PHP_MODE=apache
-ABSCLONEPATH="`pwd -P`/a2clonevhost.sh"
 
 for i in "$@"
 do
@@ -94,18 +89,6 @@ case $i in
     ;;
     -m=*|--mysqlhost=*)
     MYSQLHOST="${i#*=}"
-    ;;
-    -c=*|--config=*)
-    MYSQLHOST="${i#*=}"
-    ;;
-    -l=*|--cert=*)
-    CERT="${i#*=}"
-    ;;
-    -e=*|--certemail=*)
-    CERTEMAIL="${i#*=}"
-    ;;
-    -o=*|--addsudoer=*)
-    ADDSUDO="${i#*=}"
     ;;
     -f=*|--php-mode=*)
     PHP_MODE="${i#*=}"
@@ -139,8 +122,6 @@ echo DBUSERNAME = ${DBUSERNAME}
 echo DBUSERPASS = ${DBUSERPASS} # паролата ще бъде генерирана на случаен принцип
 echo MYSQLHOST = ${MYSQLHOST}
 echo PHP_MODE = ${PHP_MODE}
-echo CERT = ${CERT}
-echo CERTEMAIL = ${CERTEMAIL}
 
 echo "Ctrl-C to cancel ..."
 secs=$((10))
@@ -315,9 +296,6 @@ sed -i "s/DEFINE('EF_DB_USER', EF_APP_NAME);/DEFINE('EF_DB_USER', '${DBUSERNAME}
 sed -i "s/DEFINE('EF_DB_PASS', 'USER_PASSWORD_FOR_DB');/DEFINE('EF_DB_PASS', '${DBUSERPASS}');/g" conf/bgerp.cfg.php
 sed -i "s/DEFINE('BGERP_VHOST', 'localhost');/DEFINE('BGERP_VHOST', '${VHOST}');/g" conf/bgerp.cfg.php
 
-# Субституираме абсолютното име скрипта в bgERP-a
-sed -i "s/DEFINE('BGERP_CLONE_VHOST_SCRIPT','');/DEFINE('BGERP_CLONE_VHOST_SCRIPT', '${ABSCLONEPATH//\//\\/}');/g" conf/bgerp.cfg.php
-
 sed -i "s/DEFINE('EF_USERS_HASH_FACTOR', 0);/DEFINE('EF_USERS_HASH_FACTOR', 400);/g" conf/bgerp.cfg.php
 
 # Задаваме солите със случайни стрингове
@@ -375,27 +353,10 @@ bash "$START_DIR/aspell_add.sh"
 chown www-data:www-data ${DIRECTORY} -R
 
 
-# Добавяне на a2clonevhost.sh апаче да може да го изпълнява като sudo-ер
-if [ "$ADDSUDO" == "yes" ]; then
-    chmod u+w /etc/sudoers
-    echo "www-data ALL=(ALL) NOPASSWD: ${ABSCLONEPATH}" >> /etc/sudoers 
-    chmod u-w /etc/sudoers
-    chmod +x ${ABSCLONEPATH}
-else
-    echo "Not ssl certificate will be installed."
-fi
-
 crontab -l > cron.res
 echo "* * * * * wget -q --spider --no-check-certificate https://"${VHOST}"/core_Cron/cron" >> cron.res
 crontab cron.res
 rm cron.res
-
-if [ "$CERT" == "yes" ]; then
-    echo "Installing Let's Encrypt ..."
-    bash letsencrypt.sh -d=${VHOST} -m=${CERTEMAIL}
-else
-    echo "Not ssl certificate will be installed."
-fi
 
 # Създаване на файл, съдържащ информация с детайлите на инсталацията
 echo "Installation information for bgERP" > ~/bgerp-install-"${DBNAME}".info
