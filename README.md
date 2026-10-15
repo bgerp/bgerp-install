@@ -11,7 +11,7 @@ Bash скрипт за инсталиране на [bgERP](https://bgerp.com)
 - пакета се сваля с командата: `git clone https://github.com/bgerp/bgerp-install.git`<br>
     или `wget https://github.com/bgerp/bgerp-install/archive/master.zip && unzip master.zip`
 - влиза се в директорията `bgerp-install`
-- стартира се `install_bgERP_php7.sh` като потребител `root` или със `sudo`
+- стартира се `install_bgERP.sh` като потребител `root` или със `sudo`
 Възможни са следните параметри за подаване:
     - `-h, --help`                 показва помощна информация
     - `-d, --directory`            задава директорията за инсталиране на bgERP /`EF_ROOT_PATH`/
@@ -21,9 +21,18 @@ Bash скрипт за инсталиране на [bgERP](https://bgerp.com)
     - `-p, --dbrootpass`           парола за MySQL root потребителя /създава се произволна, ако не се зададе/
     - `-s, --dbusername`           потребител за базата
     - `-a, --dbuserpass`           парола за потребителя за базата /създава се произволна, ако не се зададе/
+    - `-f, --php-mode`             режим на PHP: `apache` (по подразбиране, mod_php) или `fpm` (PHP-FPM)
 
 ##### Примерно стартиране:
-`sudo ./install_bgERP_php7.sh -d=/var/www -u=bgerp.local -b=DC2 -s=bgerpuser -n=bgerpbase`
+`sudo ./install_bgERP.sh -d=/var/www -u=bgerp.local -b=DC2 -s=bgerpuser -n=bgerpbase`
+
+За инсталация с PHP-FPM добавете `--php-mode=fpm` (или `-f=fpm`):
+
+`sudo ./install_bgERP.sh -d=/var/www -u=bgerp.local -b=DC2 -s=bgerpuser -n=bgerpbase --php-mode=fpm`
+
+Режимът `fpm` инсталира PHP-FPM вместо mod_php, активира Apache `proxy_fcgi`,
+`setenvif` и `mpm_event` и настройва `/etc/php/<версия>/fpm/php.ini`.
+Версията на PHP остава 7.4 за Ubuntu 24.04 и 8.2 за Ubuntu 26.04.
 
 резултатен файл с параметрите на инсталацията и паролите се записва в `/root/bgerp-install.info`
 
