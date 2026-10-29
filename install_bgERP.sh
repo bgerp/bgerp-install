@@ -257,6 +257,9 @@ do
     echo "PHP date.timezone set to ${TIMEZONE} in $PHP_INI"
 done
 
+# Ограничението на паметта и за CLI (по подразбиране там е -1)
+sed -i "s/^memory_limit\s*=.*/memory_limit = 256M/" "/etc/php/${PHP_VERSION}/cli/php.ini" || exit 1
+
 if [ "$PHP_MODE" = "fpm" ]; then
     # mod_php и другите MPM модули не могат да работят с mpm_event.
     for APACHE_MODULE in /etc/apache2/mods-enabled/php*.load \

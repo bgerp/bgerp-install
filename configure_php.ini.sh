@@ -20,7 +20,7 @@ fi
 upload_max_filesize=128M
 post_max_size=128M
 max_execution_time=60
-memory_limit=1024M
+memory_limit=256M
 
 for key in upload_max_filesize post_max_size max_execution_time memory_limit
 do
