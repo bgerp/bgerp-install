@@ -11,6 +11,11 @@ if [ "$EUID" -ne "$ROOT_UID" ]; then
     exit "$NOTROOT"
 fi
 
+# Сваляме и компилираме речника във временна директория, която се изтрива накрая
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+cd "$TMP_DIR"
+
 wget https://ftp.gnu.org/gnu/aspell/dict/bg/aspell6-bg-4.1-0.tar.bz2
 tar -xf aspell6-bg-4.1-0.tar.bz2
 cd aspell6-bg-4.1-0 || exit 1
