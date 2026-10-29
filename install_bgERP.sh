@@ -238,6 +238,21 @@ phpenmod -v "$PHP_VERSION" imap || exit 1
 # конфигурираме php 
 bash configure_php.ini.sh "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini" || exit 1
 
+# Часовата зона на PHP за CLI и за уеб сървъра (apache2 или fpm)
+for PHP_INI in "/etc/php/${PHP_VERSION}/cli/php.ini" "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini"
+do
+    if [ ! -f "$PHP_INI" ]; then
+        echo "PHP configuration file not found: $PHP_INI" >&2
+        exit 1
+    fi
+    if grep -q '^;\?\s*date\.timezone\s*=' "$PHP_INI"; then
+        sed -i "s|^;\?\s*date\.timezone\s*=.*|date.timezone = ${TIMEZONE}|" "$PHP_INI" || exit 1
+    else
+        echo "date.timezone = ${TIMEZONE}" >> "$PHP_INI" || exit 1
+    fi
+    echo "PHP date.timezone set to ${TIMEZONE} in $PHP_INI"
+done
+
 if [ "$PHP_MODE" = "fpm" ]; then
     # mod_php и другите MPM модули не могат да работят с mpm_event.
     for APACHE_MODULE in /etc/apache2/mods-enabled/php*.load \
