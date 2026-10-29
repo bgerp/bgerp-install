@@ -349,6 +349,14 @@ apt install -y pngquant
 apt install -y wget
 apt install -y curl
 
+# Ubuntu 26.04 ограничава gs с AppArmor - разрешаваме му само четене на качените файлове на bgERP
+if [ -f /etc/apparmor.d/gs ]; then
+    GS_UPLOADS_RULE="file r \"$(realpath -m "${DIRECTORY}/uploads")/**\","
+    mkdir -p /etc/apparmor.d/local
+    grep -qsxF "$GS_UPLOADS_RULE" /etc/apparmor.d/local/gs || echo "$GS_UPLOADS_RULE" >> /etc/apparmor.d/local/gs
+    apparmor_parser -r /etc/apparmor.d/gs || echo "Warning: AppArmor profile for gs is not reloaded" >&2
+fi
+
 bash "$START_DIR/FFMpegSetup.sh"
 
 # Ако tifig е инсталиран успешно добавяме константа в bgerp.cfg.php файла
