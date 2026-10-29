@@ -31,7 +31,8 @@ Bash скрипт за инсталиране на [bgERP](https://bgerp.com)
 `sudo ./install_bgERP.sh -d=/var/www -u=bgerp.local -b=DC2 -s=bgerpuser -n=bgerpbase --php-mode=fpm`
 
 Режимът `fpm` инсталира PHP-FPM вместо mod_php, активира Apache `proxy_fcgi`,
-`setenvif` и `mpm_event` и настройва `/etc/php/<версия>/fpm/php.ini`.
+`setenvif` и `mpm_event` и настройва `/etc/php/<версия>/fpm/php.ini`
+със скрипта `configure_php-fpm.ini.sh`.
 Версията на PHP остава 7.4 за Ubuntu 24.04 и 8.2 за Ubuntu 26.04.
 
 резултатен файл с параметрите на инсталацията и паролите се записва в `/root/bgerp-install.info`

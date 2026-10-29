@@ -236,7 +236,11 @@ fi
 phpenmod -v "$PHP_VERSION" imap || exit 1
 
 # конфигурираме php 
-bash configure_php.ini.sh "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini" || exit 1
+if [ "$PHP_MODE" = "fpm" ]; then
+    bash configure_php-fpm.ini.sh "/etc/php/${PHP_VERSION}/fpm/php.ini" || exit 1
+else
+    bash configure_php.ini.sh "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini" || exit 1
+fi
 
 # Часовата зона на PHP за CLI и за уеб сървъра (apache2 или fpm)
 for PHP_INI in "/etc/php/${PHP_VERSION}/cli/php.ini" "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini"
