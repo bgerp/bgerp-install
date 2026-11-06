@@ -242,8 +242,9 @@ else
     bash configure_php.ini.sh "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini" || exit 1
 fi
 
-# Часовата зона на PHP за CLI и за уеб сървъра (apache2 или fpm)
-for PHP_INI in "/etc/php/${PHP_VERSION}/cli/php.ini" "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini"
+# Часовата зона на PHP за CLI и активния уеб handler (apache2 или fpm)
+for PHP_INI in "/etc/php/${PHP_VERSION}/cli/php.ini" \
+    "/etc/php/${PHP_VERSION}/${PHP_SAPI}/php.ini"
 do
     if [ ! -f "$PHP_INI" ]; then
         echo "PHP configuration file not found: $PHP_INI" >&2
