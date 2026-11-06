@@ -23,7 +23,7 @@ apt-get install -yq --no-install-recommends \
 			php7.3-amqp php7.3-igbinary php7.3-msgpack php7.3-pspell \
 			php7.3-xdebug \
 			apache2 libapache2-mod-php7.3 aspell-en aspell-bg tesseract-ocr tesseract-ocr-bul openssl \
-			wkhtmltopdf xvfb ghostscript imagemagick zbar-tools xpdf-utils p7zip-full p7zip-rar default-jre unoconv timelimit inkscape tnef jpegoptim libjpeg-turbo-progs optipng pngquant wget \
+			wkhtmltopdf xvfb ghostscript imagemagick zbar-tools xpdf-utils p7zip-full default-jre unoconv timelimit inkscape tnef jpegoptim libjpeg-turbo-progs optipng pngquant wget \
 			webp
 a2dismod mpm_event
 a2enmod php7.3 actions rewrite headers expires deflate env filter mime setenvif remoteip mpm_prefork

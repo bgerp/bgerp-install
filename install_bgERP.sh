@@ -341,7 +341,6 @@ apt install -y imagemagick
 apt install -y zbar-tools
 apt install -y xpdf-utils
 apt install -y p7zip-full
-apt install -y p7zip-rar
 apt install -y default-jre
 apt install -y unoconv
 apt install -y python3-setuptools-gettext
